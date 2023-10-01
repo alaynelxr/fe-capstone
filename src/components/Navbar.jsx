@@ -1,5 +1,5 @@
 import { Badge } from "@material-ui/core";
-import { Search, ShoppingCartOutlined } from "@material-ui/icons";
+import { Search, AccountCircleOutlined } from "@material-ui/icons";
 import React from "react";
 import styled from "styled-components";
 import { mobile } from "../responsive";
@@ -7,6 +7,7 @@ import { mobile } from "../responsive";
 const Container = styled.div`
   height: 60px;
   ${mobile({ height: "50px" })}
+  position: sticky;
 `;
 
 const Wrapper = styled.div`
@@ -21,20 +22,6 @@ const Left = styled.div`
   flex: 1;
   display: flex;
   align-items: center;
-`;
-
-const Language = styled.span`
-  font-size: 14px;
-  cursor: pointer;
-  ${mobile({ display: "none" })}
-`;
-
-const SearchContainer = styled.div`
-  border: 0.5px solid lightgray;
-  display: flex;
-  align-items: center;
-  margin-left: 25px;
-  padding: 5px;
 `;
 
 const Input = styled.input`
@@ -71,21 +58,15 @@ const Navbar = () => {
     <Container>
       <Wrapper>
         <Left>
-          <Language>EN</Language>
-          <SearchContainer>
-            <Input placeholder="Search" />
-            <Search style={{ color: "gray", fontSize: 16 }} />
-          </SearchContainer>
+          <p>menu item</p>
         </Left>
         <Center>
-          <Logo>LAMA.</Logo>
+          <Logo>MOVEMENT.</Logo>
         </Center>
         <Right>
-          <MenuItem>REGISTER</MenuItem>
-          <MenuItem>SIGN IN</MenuItem>
           <MenuItem>
-            <Badge badgeContent={4} color="primary">
-              <ShoppingCartOutlined />
+            <Badge color="primary" variant="dot">
+              <AccountCircleOutlined />
             </Badge>
           </MenuItem>
         </Right>

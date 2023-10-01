@@ -1,22 +1,27 @@
 import React from "react";
-import Announcement from "../components/Announcement";
-import Categories from "../components/Categories";
+// import Categories from "../components/Categories";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import Newsletter from "../components/Newsletter";
-import Products from "../components/Products";
+// import Newsletter from "../components/Newsletter";
+// import Products from "../components/Products";
 import Slider from "../components/Slider";
+import Welcomebanner from "../components/Welcomebanner";
+import FeaturedMoves from "../components/FeaturedMoves";
+import BlogArticle from "../components/BlogArticle";
+import SearchBar from "../components/SearchBar";
 
 const Home = () => {
   return (
     <div>
-      <Announcement />
+      <Welcomebanner />
       <Navbar />
+      <SearchBar />
       <Slider />
-      <Categories />
-      <Products/>
-      <Newsletter/>
-      <Footer/>
+      {/* <Categories /> */}
+      {/* <Products /> */}
+      <BlogArticle />
+      <FeaturedMoves />
+      <Footer />
     </div>
   );
 };

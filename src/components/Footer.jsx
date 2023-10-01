@@ -2,10 +2,10 @@ import {
   Facebook,
   Instagram,
   MailOutline,
-  Phone,
-  Pinterest,
-  Room,
   Twitter,
+  GitHub,
+  LinkedIn,
+  AccountCircleOutlined,
 } from "@material-ui/icons";
 import styled from "styled-components";
 import { mobile } from "../responsive";
@@ -16,7 +16,7 @@ const Container = styled.div`
 `;
 
 const Left = styled.div`
-  flex: 1;
+  flex: 2;
   display: flex;
   flex-direction: column;
   padding: 20px;
@@ -44,12 +44,6 @@ const SocialIcon = styled.div`
   margin-right: 20px;
 `;
 
-const Center = styled.div`
-  flex: 1;
-  padding: 20px;
-  ${mobile({ display: "none" })}
-`;
-
 const Title = styled.h3`
   margin-bottom: 30px;
 `;
@@ -71,7 +65,6 @@ const Right = styled.div`
   flex: 1;
   padding: 20px;
   ${mobile({ backgroundColor: "#fff8f8" })}
-
 `;
 
 const ContactItem = styled.div`
@@ -81,18 +74,20 @@ const ContactItem = styled.div`
 `;
 
 const Payment = styled.img`
-    width: 50%;
+  width: 50%;
 `;
 
 const Footer = () => {
   return (
     <Container>
       <Left>
-        <Logo>LAMA.</Logo>
+        <Logo>MOVEMENT.</Logo>
         <Desc>
-          There are many variations of passages of Lorem Ipsum available, but
-          the majority have suffered alteration in some form, by injected
-          humour, or randomised words which don’t look even slightly believable.
+          The MOVEMENT app's inception dates back to 2021 when one frustrated
+          pole dancer was unsatified with the options available on the market.
+          One Glide app and one coding bootcamp later. This app is every pole
+          dancer's companion and is designed to help you keep track of your
+          progress and goals.
         </Desc>
         <SocialContainer>
           <SocialIcon color="3B5999">
@@ -104,38 +99,38 @@ const Footer = () => {
           <SocialIcon color="55ACEE">
             <Twitter />
           </SocialIcon>
-          <SocialIcon color="E60023">
-            <Pinterest />
-          </SocialIcon>
         </SocialContainer>
       </Left>
-      <Center>
-        <Title>Useful Links</Title>
-        <List>
-          <ListItem>Home</ListItem>
-          <ListItem>Cart</ListItem>
-          <ListItem>Man Fashion</ListItem>
-          <ListItem>Woman Fashion</ListItem>
-          <ListItem>Accessories</ListItem>
-          <ListItem>My Account</ListItem>
-          <ListItem>Order Tracking</ListItem>
-          <ListItem>Wishlist</ListItem>
-          <ListItem>Wishlist</ListItem>
-          <ListItem>Terms</ListItem>
-        </List>
-      </Center>
       <Right>
         <Title>Contact</Title>
         <ContactItem>
-          <Room style={{marginRight:"10px"}}/> 622 Dixie Path , South Tobinchester 98336
+          <AccountCircleOutlined style={{ marginRight: "10px" }} />
+          Alayne Loo
         </ContactItem>
         <ContactItem>
-          <Phone style={{marginRight:"10px"}}/> +1 234 56 78
+          <MailOutline style={{ marginRight: "10px" }} />
+          <a href="mailto:alaynelxr@gmail.com">alaynelxr@gmail.com</a>
         </ContactItem>
         <ContactItem>
-          <MailOutline style={{marginRight:"10px"}} /> contact@lama.dev
+          <LinkedIn style={{ marginRight: "10px" }} />{" "}
+          <a
+            href="https://www.linkedin.com/in/alayne-loo/"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            https://www.linkedin.com/in/alayne-loo/
+          </a>
         </ContactItem>
-        <Payment src="https://i.ibb.co/Qfvn4z6/payment.png" />
+        <ContactItem>
+          <GitHub style={{ marginRight: "10px" }} />{" "}
+          <a
+            href="https://github.com/alaynelxr"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            https://github.com/alaynelxr
+          </a>
+        </ContactItem>
       </Right>
     </Container>
   );

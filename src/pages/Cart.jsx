@@ -1,6 +1,5 @@
 import { Add, Remove } from "@material-ui/icons";
 import styled from "styled-components";
-import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { mobile } from "../responsive";
@@ -47,7 +46,6 @@ const Bottom = styled.div`
   display: flex;
   justify-content: space-between;
   ${mobile({ flexDirection: "column" })}
-
 `;
 
 const Info = styled.div`
@@ -157,7 +155,6 @@ const Cart = () => {
   return (
     <Container>
       <Navbar />
-      <Announcement />
       <Wrapper>
         <Title>YOUR BAG</Title>
         <Top>

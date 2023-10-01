@@ -1,8 +1,6 @@
 import styled from "styled-components";
 import Navbar from "../components/Navbar";
-import Announcement from "../components/Announcement";
-import Products from "../components/Products";
-import Newsletter from "../components/Newsletter";
+import FeaturedMoves from "../components/FeaturedMoves";
 import Footer from "../components/Footer";
 import { mobile } from "../responsive";
 
@@ -40,44 +38,32 @@ const ProductList = () => {
   return (
     <Container>
       <Navbar />
-      <Announcement />
       <Title>Dresses</Title>
       <FilterContainer>
         <Filter>
           <FilterText>Filter Products:</FilterText>
           <Select>
             <Option disabled selected>
-              Color
+              Difficulty
             </Option>
-            <Option>White</Option>
-            <Option>Black</Option>
-            <Option>Red</Option>
-            <Option>Blue</Option>
-            <Option>Yellow</Option>
-            <Option>Green</Option>
+            <Option>Intro</Option>
+            <Option>Beginner</Option>
+            <Option>Intermediate</Option>
+            <Option>Advanced</Option>
+            <Option>Extreme</Option>
           </Select>
           <Select>
             <Option disabled selected>
-              Size
+              Types
             </Option>
-            <Option>XS</Option>
-            <Option>S</Option>
-            <Option>M</Option>
-            <Option>L</Option>
-            <Option>XL</Option>
-          </Select>
-        </Filter>
-        <Filter>
-          <FilterText>Sort Products:</FilterText>
-          <Select>
-            <Option selected>Newest</Option>
-            <Option>Price (asc)</Option>
-            <Option>Price (desc)</Option>
+            <Option>All</Option>
+            <Option>Flexibility</Option>
+            <Option>Flips and Drops</Option>
+            <Option>Spins</Option>
           </Select>
         </Filter>
       </FilterContainer>
-      <Products />
-      <Newsletter />
+      <FeaturedMoves />
       <Footer />
     </Container>
   );

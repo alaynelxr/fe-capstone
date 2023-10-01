@@ -1,8 +1,4 @@
-import {
-  FavoriteBorderOutlined,
-  SearchOutlined,
-  ShoppingCartOutlined,
-} from "@material-ui/icons";
+import { FavoriteBorderOutlined, SearchOutlined } from "@material-ui/icons";
 import styled from "styled-components";
 
 const Info = styled.div`
@@ -26,6 +22,7 @@ const Container = styled.div`
   margin: 5px;
   min-width: 280px;
   height: 350px;
+  border-radius: 5%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -37,16 +34,8 @@ const Container = styled.div`
   }
 `;
 
-const Circle = styled.div`
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  background-color: white;
-  position: absolute;
-`;
-
 const Image = styled.img`
-  height: 75%;
+  height: 80%;
   z-index: 2;
 `;
 
@@ -66,15 +55,11 @@ const Icon = styled.div`
   }
 `;
 
-const Product = ({ item }) => {
+const FeaturedMovesTile = ({ item }) => {
   return (
     <Container>
-      <Circle />
       <Image src={item.img} />
       <Info>
-        <Icon>
-          <ShoppingCartOutlined />
-        </Icon>
         <Icon>
           <SearchOutlined />
         </Icon>
@@ -86,4 +71,4 @@ const Product = ({ item }) => {
   );
 };
 
-export default Product;
+export default FeaturedMovesTile;
