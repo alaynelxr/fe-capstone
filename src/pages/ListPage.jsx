@@ -14,18 +14,8 @@ const Container = styled.div``;
 const Wrapper = styled.div`
   padding: 50px;
   display: flex;
-  ${mobile({ padding: "10px", flexDirection: "column" })};
-`;
-
-const ImgContainer = styled.div`
-  flex: 1;
-`;
-
-const Image = styled.img`
-  width: 100%;
-  height: 90vh;
-  object-fit: cover;
-  ${mobile({ height: "30vh" })}
+  flex-direction: column;
+  ${mobile({ padding: "10px" })};
 `;
 
 const InfoContainer = styled.div`
@@ -79,45 +69,18 @@ const Label = styled.button`
   }
 `;
 
-const MovePage = () => {
+const ListPage = () => {
   return (
     <Container>
       <Navbar />
       <Wrapper>
-        <ImgContainer>
-          <Image src="https://i.pinimg.com/564x/09/c0/2f/09c02f4b9e01dd9627bf6132cf39562d.jpg" />
-        </ImgContainer>
         <InfoContainer>
           <Title>Ayesha</Title>
-          <Subtitle>aka Static V</Subtitle>
-          <Header>Difficulty</Header>
-          <Label>Advanced</Label>
-          <Header>Type</Header>
-          <Label>Trick</Label>
-          <Header>Description</Header>
-          <Desc>
-            Twisted, true, cup. There's no one "correct" grip for this move.
-            Give it a try!
-          </Desc>
-          <Header>Your Progress</Header>
-          <SelectorContainer>
-            <ProficiencySelector />
-          </SelectorContainer>
-          <SelectorContainer>
-            <Button variant="text" startIcon={<CloudUploadIcon />}>
-              Upload your photo
-            </Button>
-          </SelectorContainer>
-          <Header>Notes</Header>
-          <SelectorContainer>
-            <TextField
-              id="outlined-multiline-static"
-              fullWidth
-              multiline
-              rows={4}
-              defaultValue="Add your notes here"
-            />
-          </SelectorContainer>
+          <Subtitle>2 Moves</Subtitle>
+          <Header>Moves</Header>
+
+          <Desc>Add new moves to view them here</Desc>
+
           <AddButton />
         </InfoContainer>
       </Wrapper>
@@ -126,4 +89,4 @@ const MovePage = () => {
   );
 };
 
-export default MovePage;
+export default ListPage;

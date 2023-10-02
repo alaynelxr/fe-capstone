@@ -38,10 +38,10 @@ const ProductList = () => {
   return (
     <Container>
       <Navbar />
-      <Title>Dresses</Title>
+      <Title>View moves</Title>
       <FilterContainer>
         <Filter>
-          <FilterText>Filter Products:</FilterText>
+          <FilterText>Filter:</FilterText>
           <Select>
             <Option disabled selected>
               Difficulty
@@ -70,3 +70,5 @@ const ProductList = () => {
 };
 
 export default ProductList;
+
+// use this when implementing the menu Add to List https://mui.com/material-ui/react-menu/#complementary-projects

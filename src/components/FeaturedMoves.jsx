@@ -18,9 +18,9 @@ const Heading = styled.p`
 const FeaturedMoves = () => {
   return (
     <>
-      <Heading>
+      {/* <Heading>
         <p>Newly added moves</p>
-      </Heading>
+      </Heading> */}
       <Container>
         {popularProducts.map((item) => (
           <FeaturedMovesTile item={item} key={item.id} />
