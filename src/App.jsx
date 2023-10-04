@@ -1,19 +1,20 @@
 import MovePage from "./pages/MovePage";
 import Home from "./pages/Home";
-import ProductList from "./pages/ProductList";
+import Browse from "./pages/Browse";
 import Login from "./pages/Login";
 import Cart from "./pages/Cart";
-import AddMoveForm from "./pages/AddMovePage";
-import AddListForm from "./pages/AddListPage";
+import AddMoveForm from "./pages/AddMove";
+import AddListForm from "./pages/AddList";
 import ListPage from "./pages/ListPage";
+import AllListsPage from "./pages/AllListsPage";
 
 const App = () => {
-  // return <Home/>;
-  // return <ProductList />;
+  // return <Home />;
   // return <MovePage />;
   // return <Cart />;
   // return <AddListForm />;
   return <ListPage />;
+  // return <AllListsPage />;
 };
 
 export default App;

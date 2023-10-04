@@ -2,7 +2,7 @@ import React from "react";
 // import Categories from "../components/Categories";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-// import Newsletter from "../components/Newsletter";
+import ListItem from "../components/MoveItemSingle";
 // import Products from "../components/Products";
 import Slider from "../components/Slider";
 import Welcomebanner from "../components/Welcomebanner";
@@ -21,6 +21,7 @@ const Home = () => {
       {/* <Products /> */}
       <BlogArticle />
       <FeaturedMoves />
+      <ListItem />
       <Footer />
     </div>
   );

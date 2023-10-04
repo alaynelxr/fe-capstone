@@ -48,19 +48,6 @@ const Title = styled.h3`
   margin-bottom: 30px;
 `;
 
-const List = styled.ul`
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-`;
-
-const ListItem = styled.li`
-  width: 50%;
-  margin-bottom: 10px;
-`;
-
 const Right = styled.div`
   flex: 1;
   padding: 20px;
@@ -71,10 +58,6 @@ const ContactItem = styled.div`
   margin-bottom: 20px;
   display: flex;
   align-items: center;
-`;
-
-const Payment = styled.img`
-  width: 50%;
 `;
 
 const Footer = () => {

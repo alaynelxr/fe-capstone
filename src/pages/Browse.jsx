@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import Navbar from "../components/Navbar";
 import FeaturedMoves from "../components/FeaturedMoves";
+import SearchBar from "../components/SearchBar";
 import Footer from "../components/Footer";
+import AddButton from "../components/AddButton";
 import { mobile } from "../responsive";
 
 const Container = styled.div``;
@@ -34,11 +36,12 @@ const Select = styled.select`
 `;
 const Option = styled.option``;
 
-const ProductList = () => {
+const Browse = () => {
   return (
     <Container>
       <Navbar />
       <Title>View moves</Title>
+      <SearchBar />
       <FilterContainer>
         <Filter>
           <FilterText>Filter:</FilterText>
@@ -56,7 +59,7 @@ const ProductList = () => {
             <Option disabled selected>
               Types
             </Option>
-            <Option>All</Option>
+            <Option>Tricks</Option>
             <Option>Flexibility</Option>
             <Option>Flips and Drops</Option>
             <Option>Spins</Option>
@@ -64,11 +67,12 @@ const ProductList = () => {
         </Filter>
       </FilterContainer>
       <FeaturedMoves />
+      <AddButton />
       <Footer />
     </Container>
   );
 };
 
-export default ProductList;
+export default Browse;
 
 // use this when implementing the menu Add to List https://mui.com/material-ui/react-menu/#complementary-projects

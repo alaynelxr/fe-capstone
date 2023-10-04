@@ -3,10 +3,12 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import AddButton from "../components/AddButton";
 import { mobile } from "../responsive";
-import MoveItemSingle from "../components/MoveItemSingle";
-import CardNew from "../components/NewItem";
+import ListItem from "../components/MoveItemSingle";
+import ListItemSingle from "../components/ListItemSingle";
 
-const Container = styled.div``;
+const Container = styled.div`
+  ${mobile({ flexDirection: "column" })}
+`;
 
 const Wrapper = styled.div`
   padding: 50px;
@@ -25,10 +27,6 @@ const Title = styled.h1`
   font-weight: 400;
 `;
 
-const Desc = styled.p`
-  margin: 5px 0px;
-`;
-
 const Subtitle = styled.p`
   font-size: 18px;
   font-weight: 300;
@@ -36,26 +34,17 @@ const Subtitle = styled.p`
   color: blue;
 `;
 
-const Header = styled.p`
-  font-size: 18px;
-  font-weight: 500;
-  margin: 10px 0px;
-  color: black;
-`;
-
-const ListPage = () => {
+const AllListsPage = () => {
   return (
     <Container>
       <Navbar />
       <Wrapper>
         <InfoContainer>
-          <Title>Ayesha</Title>
-          <Subtitle>2 Moves</Subtitle>
-          <Header>Moves</Header>
-
-          <Desc>Add new moves to view them here</Desc>
-          <MoveItemSingle />
-          <CardNew />
+          <Title>Lists</Title>
+          <Subtitle>2 Lists</Subtitle>
+          <ListItemSingle />
+          <ListItemSingle />
+          <ListItemSingle />
           <AddButton />
         </InfoContainer>
       </Wrapper>
@@ -64,4 +53,4 @@ const ListPage = () => {
   );
 };
 
-export default ListPage;
+export default AllListsPage;

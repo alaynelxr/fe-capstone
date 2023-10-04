@@ -9,18 +9,9 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const Heading = styled.p`
-  margin: 20px 0px 15px 15px;
-  font-size: 24px;
-  font-weight: 500;
-`;
-
 const FeaturedMoves = () => {
   return (
     <>
-      {/* <Heading>
-        <p>Newly added moves</p>
-      </Heading> */}
       <Container>
         {popularProducts.map((item) => (
           <FeaturedMovesTile item={item} key={item.id} />

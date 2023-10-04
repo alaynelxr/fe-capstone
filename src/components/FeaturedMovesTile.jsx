@@ -20,13 +20,13 @@ const Info = styled.div`
 const Container = styled.div`
   flex: 1;
   margin: 5px;
-  min-width: 280px;
-  height: 350px;
+  min-width: 160px;
+  height: 200px;
   border-radius: 5%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f5fbfd;
+  background-color: rgba(217, 217, 217, 0.2);
   position: relative;
 
   &:hover ${Info} {
@@ -35,7 +35,7 @@ const Container = styled.div`
 `;
 
 const Image = styled.img`
-  height: 80%;
+  height: 95%;
   z-index: 2;
 `;
 
