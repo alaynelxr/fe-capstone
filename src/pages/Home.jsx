@@ -1,9 +1,6 @@
 import React from "react";
-// import Categories from "../components/Categories";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import ListItem from "../components/MoveItemSingle";
-// import Products from "../components/Products";
 import Slider from "../components/Slider";
 import Welcomebanner from "../components/Welcomebanner";
 import FeaturedMoves from "../components/FeaturedMoves";
@@ -17,11 +14,8 @@ const Home = () => {
       <Navbar />
       <SearchBar />
       <Slider />
-      {/* <Categories /> */}
-      {/* <Products /> */}
       <BlogArticle />
       <FeaturedMoves />
-      <ListItem />
       <Footer />
     </div>
   );

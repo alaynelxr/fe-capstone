@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { popularProducts } from "../data";
+// import { popularProducts } from "../data"; removed hardcoded data
 import { BACKEND_URL } from "../constants";
 import FeaturedMovesTile from "./FeaturedMovesTile";
 import React, { useState, useEffect } from "react";
@@ -43,12 +43,3 @@ const FeaturedMoves = () => {
 };
 
 export default FeaturedMoves;
-
-// return (
-//     <div className="p-4 lg:px-20 xl:px-40 h-screen flex flex-col justify-around text-red-500 md:flex-row md:gap-8 md:items-center relative">
-//       {productData.map((product) => (
-//         <div key={product.id} className="mb-4">
-//           {product.title && <h2 className="text-xl mt-2">{product.title}</h2>}
-//         </div>
-//       ))}
-//     </div>

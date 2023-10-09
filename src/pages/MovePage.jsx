@@ -1,3 +1,5 @@
+import React, { useState, useEffect } from "react";
+import { BACKEND_URL } from "../constants";
 import styled from "styled-components";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
@@ -79,38 +81,43 @@ const Label = styled.button`
   }
 `;
 
-const getData = async () => {
-  const res = await fetch(`http://localhost:5000/api/moves`, {
-    cache: "no-store",
-  });
-
-  if (!res.ok) {
-    throw new Error("Failed!");
-  }
-
-  return res.json();
-};
-
 const MovePage = () => {
+  const [singleMoveData, setSingleMoveData] = useState(null);
+
+  useEffect(() => {
+    // Get the 'id' parameter from the URL
+    const id = window.location.pathname.split("/").pop();
+    // Fetch data from the API using 'id'
+    fetch(`${BACKEND_URL}/moves/${id}`)
+      .then((response) => response.json())
+      .then((data) => setSingleMoveData(data))
+      .catch((error) => console.error(error));
+  }, []);
+
+  const categories = singleMoveData?.categories || [];
+
   return (
     <Container>
       <Navbar />
       <Wrapper>
         <ImgContainer>
-          <Image src="https://i.pinimg.com/564x/09/c0/2f/09c02f4b9e01dd9627bf6132cf39562d.jpg" />
+          <Image src={singleMoveData?.img || ""} />
         </ImgContainer>
         <InfoContainer>
-          <Title>Ayesha</Title>
+          <Title> {singleMoveData?.title || "Loading ..."}</Title>
           <Subtitle>aka Static V</Subtitle>
           <Header>Difficulty</Header>
-          <Label>Advanced</Label>
+          <Label>{singleMoveData?.difficulty?.title || "Loading..."}</Label>
           <Header>Type</Header>
-          <Label>Trick</Label>
+          {/* <Label>{singleMoveData?.categories?.title || "Loading..."}</Label> */}
+          {categories.map((category, index) => (
+            <Label key={category.id}>
+              {category.title}
+              {index < categories.length - 1 ? ", " : ""}
+            </Label>
+          ))}
           <Header>Description</Header>
-          <Desc>
-            Twisted, true, cup. There's no one "correct" grip for this move.
-            Give it a try!
-          </Desc>
+          <Desc>{singleMoveData?.desc || "Loading..."}</Desc>
           <Header>Your Progress</Header>
           <SelectorContainer>
             <ProficiencySelector />

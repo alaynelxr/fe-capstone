@@ -3,6 +3,7 @@ import { Search, AccountCircleOutlined } from "@material-ui/icons";
 import React from "react";
 import styled from "styled-components";
 import { mobile } from "../responsive";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   height: 60px;
@@ -53,15 +54,28 @@ const MenuItem = styled.div`
   ${mobile({ fontSize: "12px", marginLeft: "10px" })}
 `;
 
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: black;
+  transition: color 0.3s ease;
+  &:hover {
+    color: #9e9e9e;
+  }
+`;
+
 const Navbar = () => {
   return (
     <Container>
       <Wrapper>
         <Left>
-          <p>menu item</p>
+          <StyledLink to="/lists">
+            <p>Lists</p>
+          </StyledLink>
         </Left>
         <Center>
-          <Logo>MOVEMENT.</Logo>
+          <StyledLink to="/">
+            <Logo>MOVEMENT.</Logo>
+          </StyledLink>
         </Center>
         <Right>
           <MenuItem>

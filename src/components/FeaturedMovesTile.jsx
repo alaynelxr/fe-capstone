@@ -1,5 +1,6 @@
 import { FavoriteBorderOutlined, SearchOutlined } from "@material-ui/icons";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const Info = styled.div`
   opacity: 0;
@@ -17,7 +18,7 @@ const Info = styled.div`
   cursor: pointer;
 `;
 
-const Container = styled.div`
+const Container = styled(Link)`
   flex: 1;
   margin: 5px;
   min-width: 160px;
@@ -35,7 +36,7 @@ const Container = styled.div`
 `;
 
 const Image = styled.img`
-  height: 95%;
+  height: 75%;
   z-index: 2;
 `;
 
@@ -55,10 +56,17 @@ const Icon = styled.div`
   }
 `;
 
+const Text = styled.div`
+  text-align: center;
+  color: black;
+  margin-top: 10px; /* Adjust the margin as needed */
+`;
+
 const FeaturedMovesTile = ({ item }) => {
   return (
-    <Container>
+    <Container to={`/move/${item.id}`}>
       <Image src={item.img} />
+      <Text>{item.title}</Text>
       <Info>
         <Icon>
           <SearchOutlined />
