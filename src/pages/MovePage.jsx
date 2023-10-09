@@ -109,7 +109,6 @@ const MovePage = () => {
           <Header>Difficulty</Header>
           <Label>{singleMoveData?.difficulty?.title || "Loading..."}</Label>
           <Header>Type</Header>
-          {/* <Label>{singleMoveData?.categories?.title || "Loading..."}</Label> */}
           {categories.map((category, index) => (
             <Label key={category.id}>
               {category.title}

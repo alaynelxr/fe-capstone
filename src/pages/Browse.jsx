@@ -6,6 +6,8 @@ import Footer from "../components/Footer";
 import AddButton from "../components/AddButton";
 import { mobile } from "../responsive";
 
+import React, { useState, useEffect } from "react";
+
 const Container = styled.div``;
 
 const Title = styled.h1`
@@ -37,36 +39,45 @@ const Select = styled.select`
 const Option = styled.option``;
 
 const Browse = () => {
+  const [filters, setFilters] = useState({});
+  const [searchQuery, setSearchQuery] = useState(""); // Add searchQuery state
+
+  const handleFilters = (e) => {
+    const value = e.target.value;
+    setFilters({
+      ...filters,
+      [e.target.name]: value,
+    });
+  };
+  console.log(filters);
+  console.log(searchQuery);
+
   return (
     <Container>
       <Navbar />
       <Title>View moves</Title>
-      <SearchBar />
+      {/* <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} /> */}
       <FilterContainer>
         <Filter>
           <FilterText>Filter:</FilterText>
-          <Select>
-            <Option disabled selected>
-              Difficulty
-            </Option>
-            <Option>Intro</Option>
-            <Option>Beginner</Option>
-            <Option>Intermediate</Option>
-            <Option>Advanced</Option>
-            <Option>Extreme</Option>
+          <Select name="difficulty" onChange={handleFilters}>
+            <Option value="">All</Option>
+            <Option value="Intro">Intro</Option>
+            <Option value="Beginner">Beginner</Option>
+            <Option value="Intermediate">Intermediate</Option>
+            <Option value="Advanced">Advanced</Option>
+            <Option value="Extreme">Extreme</Option>
           </Select>
-          <Select>
-            <Option disabled selected>
-              Types
-            </Option>
-            <Option>Tricks</Option>
-            <Option>Flexibility</Option>
-            <Option>Flips and Drops</Option>
-            <Option>Spins</Option>
+          <Select name="categories" onChange={handleFilters}>
+            <Option value="">All</Option>
+            <Option value="Tricks">Tricks</Option>
+            <Option value="Flexibility">Flexibility</Option>
+            <Option value="Flips & Drops">Flips & Drops</Option>
+            <Option value="Spins">Spins</Option>
           </Select>
         </Filter>
       </FilterContainer>
-      <FeaturedMoves />
+      <FeaturedMoves filters={filters} />
       <AddButton />
       <Footer />
     </Container>

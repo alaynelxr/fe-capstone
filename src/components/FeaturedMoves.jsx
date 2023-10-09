@@ -1,5 +1,4 @@
 import styled from "styled-components";
-// import { popularProducts } from "../data"; removed hardcoded data
 import { BACKEND_URL } from "../constants";
 import FeaturedMovesTile from "./FeaturedMovesTile";
 import React, { useState, useEffect } from "react";
@@ -11,9 +10,11 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const FeaturedMoves = () => {
+const FeaturedMoves = ({ filters }) => {
   const [moveData, setMoveData] = useState([]);
+  const [filteredMoves, setFilteredMoves] = useState([]);
 
+  // fetch all moves from server
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -31,10 +32,26 @@ const FeaturedMoves = () => {
     fetchData();
   }, []);
 
+  // filter moves based on dropdown selection
+
+  useEffect(() => {
+    setFilteredMoves(
+      moveData.filter((item) => {
+        return Object.entries(filters).every(([key, value]) => {
+          const nestedPropertyValue =
+            key === "difficulty" ? item[key]?.title : item[key]?.[0]?.title;
+
+          // Check if the nested property value exists and includes the filter value
+          return nestedPropertyValue && nestedPropertyValue.includes(value);
+        });
+      })
+    );
+  }, [moveData, filters]);
+
   return (
     <>
       <Container>
-        {moveData.map((item) => (
+        {filteredMoves.map((item) => (
           <FeaturedMovesTile item={item} key={item.id} />
         ))}
       </Container>

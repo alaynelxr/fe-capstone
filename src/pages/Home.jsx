@@ -3,7 +3,7 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Slider from "../components/Slider";
 import Welcomebanner from "../components/Welcomebanner";
-import FeaturedMoves from "../components/FeaturedMoves";
+// import FeaturedMoves from "../components/FeaturedMoves";
 import BlogArticle from "../components/BlogArticle";
 import SearchBar from "../components/SearchBar";
 
@@ -15,7 +15,7 @@ const Home = () => {
       <SearchBar />
       <Slider />
       <BlogArticle />
-      <FeaturedMoves />
+      {/* <FeaturedMoves /> */}
       <Footer />
     </div>
   );
