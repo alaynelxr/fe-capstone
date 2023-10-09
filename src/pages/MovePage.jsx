@@ -79,6 +79,18 @@ const Label = styled.button`
   }
 `;
 
+const getData = async () => {
+  const res = await fetch(`http://localhost:5000/api/moves`, {
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed!");
+  }
+
+  return res.json();
+};
+
 const MovePage = () => {
   return (
     <Container>
