@@ -8,6 +8,9 @@ import AddListForm from "./pages/AddList";
 import ListPage from "./pages/ListPage";
 import AllListsPage from "./pages/AllListsPage";
 import TestPage from "./pages/TestPage";
+import SignUp from "./pages/SignUp";
+import Profile from "./pages/Profile";
+
 import {
   BrowserRouter as Router,
   Routes,
@@ -25,6 +28,9 @@ const App = () => {
         <Route path="/move/:id" element={<MovePage />} />
         <Route path="/list/:id" element={<ListPage />} />
         <Route path="/testing" element={<TestPage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </Router>
   );

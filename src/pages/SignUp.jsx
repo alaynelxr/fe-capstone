@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 // Google Authentication
 import { auth } from "../config/firebase";
-import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const Container = styled.div`
   width: 100vw;
@@ -63,36 +63,32 @@ const LinkText = styled.a`
   cursor: pointer;
 `;
 
-const Login = () => {
+const SignUp = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [notice, setNotice] = useState("");
 
-  const loginWithUsernameAndPassword = async (e) => {
+  const signupWithUsernameAndPassword = async (e) => {
     e.preventDefault();
 
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      navigate("./profile");
-    } catch {
-      setNotice("You entered a wrong username or password.");
+    if (password === confirmPassword) {
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        navigate("/");
+      } catch {
+        setNotice("Sorry, something went wrong. Please try again.");
+      }
+    } else {
+      setNotice("Passwords don't match. Please try again.");
     }
   };
-
-  // const signInWithGoogle = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     await signInWithPopup(auth, googleProvider);
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
 
   return (
     <Container>
       <Wrapper>
-        <Title>SIGN IN</Title>
+        <Title>CREATE AN ACCOUNT</Title>
         <Form>
           {"" !== notice && (
             <div className="alert alert-warning" role="alert">
@@ -107,16 +103,18 @@ const Login = () => {
             placeholder="password"
             onChange={(e) => setPassword(e.target.value)}
           />
-          {/* <Button onClick={signInWithGoogle}>SIGN IN WITH GOOGLE</Button> */}
-          <Button onClick={(e) => loginWithUsernameAndPassword(e)}>
-            LOGIN
+          <Input
+            placeholder="confirm password"
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+          <Button onClick={(e) => signupWithUsernameAndPassword(e)}>
+            SIGN UP
           </Button>
-          <LinkText> FORGOT PASSWORD?</LinkText>
-          <LinkText href="/signup">SIGN UP HERE</LinkText>
+          <LinkText href="/login">ALREADY A USER? LOGIN HERE</LinkText>
         </Form>
       </Wrapper>
     </Container>
   );
 };
 
-export default Login;
+export default SignUp;
