@@ -26,6 +26,7 @@ const Container = styled(Link)`
   border-radius: 5%;
   display: flex;
   align-items: center;
+  flex-direction: column;
   justify-content: center;
   background-color: rgba(217, 217, 217, 0.2);
   position: relative;

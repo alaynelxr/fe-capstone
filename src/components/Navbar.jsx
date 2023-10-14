@@ -68,9 +68,16 @@ const Navbar = () => {
     <Container>
       <Wrapper>
         <Left>
-          <StyledLink to="/lists">
-            <p>Lists</p>
-          </StyledLink>
+          <MenuItem>
+            <StyledLink to="/lists">
+              <p>Lists</p>
+            </StyledLink>
+          </MenuItem>
+          <MenuItem>
+            <StyledLink to="/moves">
+              <p>Browse moves</p>
+            </StyledLink>
+          </MenuItem>
         </Left>
         <Center>
           <StyledLink to="/">

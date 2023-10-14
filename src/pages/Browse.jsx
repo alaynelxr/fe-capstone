@@ -7,6 +7,7 @@ import AddButton from "../components/AddButton";
 import { mobile } from "../responsive";
 
 import React, { useState, useEffect } from "react";
+import { BACKEND_URL } from "../constants";
 
 const Container = styled.div``;
 
@@ -41,6 +42,8 @@ const Option = styled.option``;
 const Browse = () => {
   const [filters, setFilters] = useState({});
   const [searchQuery, setSearchQuery] = useState(""); // Add searchQuery state
+  const [filteredMoves, setFilteredMoves] = useState([]); // Store retrieved data
+  const [moveData, setMoveData] = useState([]);
 
   const handleFilters = (e) => {
     const value = e.target.value;
@@ -52,11 +55,46 @@ const Browse = () => {
   console.log(filters);
   console.log(searchQuery);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch(`${BACKEND_URL}/moves`);
+        if (!res.ok) {
+          throw new Error("Failed to fetch data");
+        }
+        const data = await res.json();
+        setMoveData(data);
+      } catch (error) {
+        console.error("Error", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    // Filter moves based on searchQuery and filters
+    setFilteredMoves(
+      moveData.filter((item) => {
+        return (
+          Object.entries(filters).every(([key, value]) => {
+            const nestedPropertyValue =
+              key === "difficulty" ? item[key]?.title : item[key]?.[0]?.title;
+            return nestedPropertyValue && nestedPropertyValue.includes(value);
+          }) && item.title.toLowerCase().includes(searchQuery.toLowerCase())
+          // ||            item.aliases.some((alias) =>
+          //     alias.toLowerCase().includes(searchQuery.toLowerCase())
+          //   )
+        );
+      })
+    );
+  }, [moveData, filters, searchQuery]);
+
   return (
     <Container>
       <Navbar />
       <Title>View moves</Title>
-      {/* <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} /> */}
+      <SearchBar setSearchQuery={setSearchQuery} />
       <FilterContainer>
         <Filter>
           <FilterText>Filter:</FilterText>
@@ -77,7 +115,7 @@ const Browse = () => {
           </Select>
         </Filter>
       </FilterContainer>
-      <FeaturedMoves filters={filters} />
+      <FeaturedMoves filters={filters} filteredMoves={filteredMoves} />
       <AddButton />
       <Footer />
     </Container>
