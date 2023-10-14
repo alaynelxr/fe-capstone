@@ -1,10 +1,24 @@
 import { useNavigate } from "react-router-dom";
 import { auth } from "../config/firebase";
 import { signOut } from "firebase/auth";
+import { useEffect, useState } from "react";
+import { getAuth } from "firebase/auth";
 
 const Profile = () => {
   const navigate = useNavigate();
-  const user = auth.currentUser;
+  const [user, setUser] = useState();
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const auth = getAuth();
+
+  auth.onAuthStateChanged((authUser) => {
+    if (authUser) {
+      setUser(authUser); // Set the user in the state
+    } else {
+      setUser(null);
+      navigate("/login"); // Redirect to the login page if not logged in
+    }
+  });
 
   const logoutUser = async (e) => {
     e.preventDefault();
@@ -13,20 +27,17 @@ const Profile = () => {
     navigate("/");
   };
 
-  if (!user) {
-    // If not logged in, redirect to the login page
-    navigate("/login");
-    return null; // You can also render a loading indicator here
-  }
-
   return (
     <div className="container">
       <div className="row justify-content-center">
         <div className="col-md-4 text-center">
-          <p>
-            Welcome <em className="text-decoration-underline">{user.email}</em>.
-            You are logged in!
-          </p>
+          {user ? (
+            <p>
+              Welcome{" "}
+              <em className="text-decoration-underline">{user.email}</em>. You
+              are logged in!
+            </p>
+          ) : null}
           <div className="d-grid gap-2">
             <button
               type="submit"

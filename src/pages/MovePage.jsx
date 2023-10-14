@@ -11,6 +11,8 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import ProficiencySelector from "../components/ProficiencySelector";
 
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
 const Container = styled.div``;
 
 const Wrapper = styled.div`
@@ -83,6 +85,16 @@ const Label = styled.button`
 
 const MovePage = () => {
   const [singleMoveData, setSingleMoveData] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const auth = getAuth();
+
+  auth.onAuthStateChanged((user) => {
+    if (user) {
+      setIsLoggedIn(true);
+      console.log(isLoggedIn);
+    }
+  });
 
   useEffect(() => {
     // Get the 'id' parameter from the URL
@@ -118,25 +130,31 @@ const MovePage = () => {
           <Header>Description</Header>
           <Desc>{singleMoveData?.desc || "Loading..."}</Desc>
           <Header>Your Progress</Header>
-          <SelectorContainer>
-            <ProficiencySelector />
-          </SelectorContainer>
-          <SelectorContainer>
-            <Button variant="text" startIcon={<CloudUploadIcon />}>
-              Upload your photo
-            </Button>
-          </SelectorContainer>
-          <Header>Notes</Header>
-          <SelectorContainer>
-            <TextField
-              id="outlined-multiline-static"
-              fullWidth
-              multiline
-              rows={4}
-              defaultValue="Add your notes here"
-            />
-          </SelectorContainer>
-          <AddButton />
+          {isLoggedIn ? (
+            <>
+              <SelectorContainer>
+                <ProficiencySelector />
+              </SelectorContainer>
+              <SelectorContainer>
+                <Button variant="text" startIcon={<CloudUploadIcon />}>
+                  Upload your photo
+                </Button>
+              </SelectorContainer>
+              <Header>Notes</Header>
+              <SelectorContainer>
+                <TextField
+                  id="outlined-multiline-static"
+                  fullWidth
+                  multiline
+                  rows={4}
+                  defaultValue="Add your notes here"
+                />
+              </SelectorContainer>
+              <AddButton />
+            </>
+          ) : (
+            <Subtitle> Log in to record your progress!</Subtitle>
+          )}
         </InfoContainer>
       </Wrapper>
       <Footer />

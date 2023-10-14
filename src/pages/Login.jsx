@@ -5,7 +5,11 @@ import { Link, useNavigate } from "react-router-dom";
 
 // Google Authentication
 import { auth } from "../config/firebase";
-import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from "firebase/auth";
 
 const Container = styled.div`
   width: 100vw;
@@ -65,16 +69,25 @@ const LinkText = styled.a`
 
 const Login = () => {
   const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [notice, setNotice] = useState("");
+
+  const auth = getAuth();
+
+  auth.onAuthStateChanged((user) => {
+    if (user) {
+      setIsLoggedIn(true);
+    }
+  });
 
   const loginWithUsernameAndPassword = async (e) => {
     e.preventDefault();
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate("./profile");
+      navigate("/");
     } catch {
       setNotice("You entered a wrong username or password.");
     }
@@ -92,31 +105,60 @@ const Login = () => {
   return (
     <Container>
       <Wrapper>
-        <Title>SIGN IN</Title>
-        <Form>
-          {"" !== notice && (
-            <div className="alert alert-warning" role="alert">
-              {notice}
-            </div>
-          )}
-          <Input
-            placeholder="email address"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <Input
-            placeholder="password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          {/* <Button onClick={signInWithGoogle}>SIGN IN WITH GOOGLE</Button> */}
-          <Button onClick={(e) => loginWithUsernameAndPassword(e)}>
-            LOGIN
-          </Button>
-          <LinkText> FORGOT PASSWORD?</LinkText>
-          <LinkText href="/signup">SIGN UP HERE</LinkText>
-        </Form>
+        {isLoggedIn ? (
+          <Title>You're logged in!</Title>
+        ) : (
+          <>
+            <Title>SIGN IN</Title>
+            <Form>
+              {"" !== notice && (
+                <div className="alert alert-warning" role="alert">
+                  {notice}
+                </div>
+              )}
+              <Input
+                placeholder="email address"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <Input
+                placeholder="password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              {/* <Button onClick={signInWithGoogle}>SIGN IN WITH GOOGLE</Button> */}
+              <Button onClick={(e) => loginWithUsernameAndPassword(e)}>
+                LOGIN
+              </Button>
+              <LinkText> FORGOT PASSWORD?</LinkText>
+              <LinkText href="/signup">SIGN UP HERE</LinkText>
+            </Form>
+          </>
+        )}
       </Wrapper>
     </Container>
   );
 };
 
 export default Login;
+
+//  <Title>SIGN IN</Title>
+//         <Form>
+//           {"" !== notice && (
+//             <div className="alert alert-warning" role="alert">
+//               {notice}
+//             </div>
+//           )}
+//           <Input
+//             placeholder="email address"
+//             onChange={(e) => setEmail(e.target.value)}
+//           />
+//           <Input
+//             placeholder="password"
+//             onChange={(e) => setPassword(e.target.value)}
+//           />
+//           {/* <Button onClick={signInWithGoogle}>SIGN IN WITH GOOGLE</Button> */}
+//           <Button onClick={(e) => loginWithUsernameAndPassword(e)}>
+//             LOGIN
+//           </Button>
+//           <LinkText> FORGOT PASSWORD?</LinkText>
+//           <LinkText href="/signup">SIGN UP HERE</LinkText>
+//         </Form>

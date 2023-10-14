@@ -1,9 +1,10 @@
 import { Badge } from "@material-ui/core";
-import { Search, AccountCircleOutlined } from "@material-ui/icons";
-import React from "react";
+import { AccountCircleOutlined } from "@material-ui/icons";
+import { React, useState } from "react";
 import styled from "styled-components";
 import { mobile } from "../responsive";
 import { Link } from "react-router-dom";
+import { getAuth } from "firebase/auth";
 
 const Container = styled.div`
   height: 60px;
@@ -64,15 +65,28 @@ const StyledLink = styled(Link)`
 `;
 
 const Navbar = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const auth = getAuth();
+
+  auth.onAuthStateChanged((user) => {
+    if (user) {
+      setIsLoggedIn(true);
+      console.log(isLoggedIn);
+    }
+  });
+
   return (
     <Container>
       <Wrapper>
         <Left>
-          <MenuItem>
-            <StyledLink to="/lists">
-              <p>Lists</p>
-            </StyledLink>
-          </MenuItem>
+          {isLoggedIn ? ( // Check if the user is logged in
+            <MenuItem>
+              <StyledLink to="/lists">
+                <p>Lists</p>
+              </StyledLink>
+            </MenuItem>
+          ) : null}
           <MenuItem>
             <StyledLink to="/moves">
               <p>Browse moves</p>
@@ -85,11 +99,26 @@ const Navbar = () => {
           </StyledLink>
         </Center>
         <Right>
-          <MenuItem>
+          {isLoggedIn ? ( // Check if the user is logged in
+            <MenuItem>
+              <Badge color="primary" variant="dot">
+                <AccountCircleOutlined
+                  onClick={(event) => (window.location.href = "/profile")}
+                />
+              </Badge>
+            </MenuItem>
+          ) : (
+            <MenuItem>
+              <StyledLink to="/login">
+                <p>Log in</p>
+              </StyledLink>
+            </MenuItem>
+          )}
+          {/* <MenuItem>
             <Badge color="primary" variant="dot">
               <AccountCircleOutlined />
             </Badge>
-          </MenuItem>
+          </MenuItem> */}
         </Right>
       </Wrapper>
     </Container>
