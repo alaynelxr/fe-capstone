@@ -22,22 +22,10 @@ export default function ProficiencySelector({ value, onChange }) {
         value={value}
         onChange={handleChange}
       >
-        {/* <MenuItem value="Not attempted" data-id="clnyizt7n0000svx8ggqeupdy">
-          Not attempted
-        </MenuItem>
-        <MenuItem value="Learning" data-id="clnyizt7n0001svx8kd41sqel">
-          Learning
-        </MenuItem>
-        <MenuItem value="Competent" data-id="clnyizt7n0002svx870keha9w">
-          Competent
-        </MenuItem>
-        <MenuItem value="Expert" data-id="clnyizt7n0003svx8w4a7e10c">
-          Expert
-        </MenuItem> */}
-        <MenuItem value="clnyizt7n0000svx8ggqeupdy">Not attempted</MenuItem>
-        <MenuItem value="clnyizt7n0001svx8kd41sqel">Learning</MenuItem>
-        <MenuItem value="clnyizt7n0002svx870keha9w">Competent</MenuItem>
-        <MenuItem value="clnyizt7n0003svx8w4a7e10c">Expert</MenuItem>
+        <MenuItem value="Not attempted">Not attempted</MenuItem>
+        <MenuItem value="Learning">Learning</MenuItem>
+        <MenuItem value="Competent">Competent</MenuItem>
+        <MenuItem value="Expert">Expert</MenuItem>
       </Select>
     </FormControl>
   );

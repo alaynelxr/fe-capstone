@@ -63,11 +63,6 @@ const AddMoveForm = () => {
     setFormData((formData) => ({ ...formData, [name]: value }));
   };
 
-  // const handleDifficultyChange = (event) => {
-  //   const selectedDifficultyValue = event.target.getAttribute("data-id"); // Get the data-id attribute
-  //   setFormData({ ...formData, difficulty: selectedDifficultyValue });
-  // };
-
   const handleCategoriesChange = (selectedCategories) => {
     const categoriesArray = Array.isArray(selectedCategories)
       ? selectedCategories
@@ -76,31 +71,11 @@ const AddMoveForm = () => {
     setFormData({ ...formData, categories: categoriesArray });
   };
 
-  // const handleAliasTextChange = (selectedAliases) => {
-  //   const aliasesArray = Array.isArray(selectedAliases)
-  //     ? selectedAliases
-  //     : [selectedAliases];
-  //   setFormData({ ...formData, alias: aliasesArray });
-  // };
-
   const handleAliasTextChange = (event) => {
     const inputValue = event.target.value; // Get the input value
     const aliasesArray = inputValue.split(",").map((alias) => alias.trim()); // Split into an array
     setFormData({ ...formData, alias: aliasesArray });
   };
-
-  // const handleCategoriesChange = (event) => {
-  //   const selectedCategories = Array.isArray(event.target.value)
-  //     ? event.target.value
-  //     : [event.target.value];
-
-  //   const selectedCategoryIds = selectedCategories.map((categoryValue) => {
-  //     const menuItem = event.target.querySelector(`[value="${categoryValue}"]`);
-  //     return menuItem.getAttribute("data-id");
-  //   });
-
-  //   setFormData({ ...formData, categories: selectedCategoryIds });
-  // };
 
   const { token } = useFirebaseAuth();
 
@@ -120,7 +95,6 @@ const AddMoveForm = () => {
         },
         body: JSON.stringify(formData),
       });
-      console.log("Headers:", response.headers);
       console.log("authorisation token", token);
       console.log("this is jsonbody", JSON.stringify(formData));
 
@@ -171,10 +145,10 @@ const AddMoveForm = () => {
           </InputContainer>
           <InputContainer>
             <ProficiencySelector
-              name="proficiency"
-              value={formData.proficiency}
+              name="level"
+              value={formData.level}
               onChange={(value) => {
-                setFormData({ ...formData, proficiency: value });
+                setFormData({ ...formData, level: value });
               }}
               // onChange={handleDifficultyChange}
             />
