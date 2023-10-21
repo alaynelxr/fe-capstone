@@ -11,6 +11,7 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import ProficiencySelector from "../components/ProficiencySelector";
 
+import { useFirebaseAuth } from "../config/useFirebaseAuth";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const Container = styled.div``;
@@ -86,6 +87,7 @@ const Label = styled.button`
 const MovePage = () => {
   const [singleMoveData, setSingleMoveData] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [selectedProficiency, setSelectedProficiency] = useState(""); // State to hold the selected proficiency
 
   const auth = getAuth();
 
@@ -97,16 +99,56 @@ const MovePage = () => {
   });
 
   useEffect(() => {
-    // Get the 'id' parameter from the URL
     const id = window.location.pathname.split("/").pop();
-    // Fetch data from the API using 'id'
-    fetch(`${BACKEND_URL}/moves/${id}`)
-      .then((response) => response.json())
-      .then((data) => setSingleMoveData(data))
-      .catch((error) => console.error(error));
+    const auth = getAuth(); // Get the Firebase Auth instance
+
+    // Listen for changes in the authentication state
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        // If the user is logged in, you can get their UID and use it in your API request
+        user
+          .getIdToken()
+          .then((idToken) => {
+            console.log("After fetch");
+            return fetch(`${BACKEND_URL}/moves/${id}`, {
+              method: "GET",
+              headers: {
+                Authorization: `${idToken}`,
+              },
+            });
+          })
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            } else {
+              throw new Error(
+                `Error fetching move: ${response.status} - ${response.statusText}`
+              );
+            }
+          })
+          .then((data) => {
+            setSingleMoveData(data);
+            console.log(data);
+          })
+          .catch((error) => console.error(error));
+      } else {
+        // Handle the case where the user is not logged in
+        // You can fetch data without the user's UID or proficiency
+        fetch(`${BACKEND_URL}/moves/${id}`)
+          .then((response) => response.json())
+          .then((data) => {
+            setSingleMoveData(data);
+          })
+          .catch((error) => console.error(error));
+      }
+    });
+
+    return unsubscribe; // Cleanup when the component unmounts
   }, []);
 
   const categories = singleMoveData?.categories || [];
+
+  console.log(singleMoveData);
 
   return (
     <Container>
@@ -133,7 +175,14 @@ const MovePage = () => {
           {isLoggedIn ? (
             <>
               <SelectorContainer>
-                <ProficiencySelector />
+                <ProficiencySelector
+                  value={
+                    singleMoveData?.userProficiency.level || "Not attempted"
+                  }
+                  onChange={(newProficiency) =>
+                    setSelectedProficiency(newProficiency)
+                  }
+                />
               </SelectorContainer>
               <SelectorContainer>
                 <Button variant="text" startIcon={<CloudUploadIcon />}>
