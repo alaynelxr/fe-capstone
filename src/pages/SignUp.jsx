@@ -70,13 +70,61 @@ const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [notice, setNotice] = useState("");
 
+  // const signupWithUsernameAndPassword = async (e) => {
+  //   e.preventDefault();
+
+  //   if (password === confirmPassword) {
+  //     try {
+  //       await createUserWithEmailAndPassword(auth, email, password);
+  //       navigate("/");
+  //     } catch {
+  //       setNotice("Sorry, something went wrong. Please try again.");
+  //     }
+  //   } else {
+  //     setNotice("Passwords don't match. Please try again.");
+  //   }
+  // };
   const signupWithUsernameAndPassword = async (e) => {
     e.preventDefault();
 
     if (password === confirmPassword) {
       try {
-        await createUserWithEmailAndPassword(auth, email, password);
-        navigate("/");
+        // Create the user in Firebase Authentication
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        const user = userCredential.user;
+
+        // Extract the display name (if provided) or set it to null
+        const displayName = user.displayName || null;
+
+        // Send user data to your backend to create a database entry
+        const userData = {
+          uid: user.uid,
+          email: user.email,
+          displayName, // Use the extracted display name or null
+        };
+
+        console.log(userData);
+
+        // Make an HTTP POST request to your backend to create the user entry
+        const response = await fetch("http://localhost:5000/users/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userData),
+        });
+
+        console.log(response);
+
+        if (response.ok) {
+          navigate("/");
+        } else {
+          setNotice("Sorry, something went wrong. Please try again.");
+        }
       } catch {
         setNotice("Sorry, something went wrong. Please try again.");
       }
@@ -100,10 +148,12 @@ const SignUp = () => {
             onChange={(e) => setEmail(e.target.value)}
           />
           <Input
+            type="password"
             placeholder="password"
             onChange={(e) => setPassword(e.target.value)}
           />
           <Input
+            type="password"
             placeholder="confirm password"
             onChange={(e) => setConfirmPassword(e.target.value)}
           />

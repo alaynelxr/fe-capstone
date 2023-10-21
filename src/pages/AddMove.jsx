@@ -5,6 +5,9 @@ import TextField from "@mui/material/TextField";
 import ProficiencySelector from "../components/ProficiencySelector";
 import DifficultySelector from "../components/DifficultySelector";
 import CategorySelector from "../components/CategorySelector";
+import React, { useState } from "react";
+import { useFirebaseAuth } from "../config/useFirebaseAuth";
+import { BACKEND_URL } from "../constants";
 
 const Container = styled.div`
   width: 100vw;
@@ -46,40 +49,158 @@ const InputContainer = styled.div`
 `;
 
 const AddMoveForm = () => {
+  const [formData, setFormData] = useState({
+    title: "",
+    alias: [],
+    difficulty: "",
+    proficiency: "",
+    categories: [],
+    desc: "",
+  });
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((formData) => ({ ...formData, [name]: value }));
+  };
+
+  // const handleDifficultyChange = (event) => {
+  //   const selectedDifficultyValue = event.target.getAttribute("data-id"); // Get the data-id attribute
+  //   setFormData({ ...formData, difficulty: selectedDifficultyValue });
+  // };
+
+  const handleCategoriesChange = (selectedCategories) => {
+    const categoriesArray = Array.isArray(selectedCategories)
+      ? selectedCategories
+      : [selectedCategories];
+
+    setFormData({ ...formData, categories: categoriesArray });
+  };
+
+  // const handleAliasTextChange = (selectedAliases) => {
+  //   const aliasesArray = Array.isArray(selectedAliases)
+  //     ? selectedAliases
+  //     : [selectedAliases];
+  //   setFormData({ ...formData, alias: aliasesArray });
+  // };
+
+  const handleAliasTextChange = (event) => {
+    const inputValue = event.target.value; // Get the input value
+    const aliasesArray = inputValue.split(",").map((alias) => alias.trim()); // Split into an array
+    setFormData({ ...formData, alias: aliasesArray });
+  };
+
+  // const handleCategoriesChange = (event) => {
+  //   const selectedCategories = Array.isArray(event.target.value)
+  //     ? event.target.value
+  //     : [event.target.value];
+
+  //   const selectedCategoryIds = selectedCategories.map((categoryValue) => {
+  //     const menuItem = event.target.querySelector(`[value="${categoryValue}"]`);
+  //     return menuItem.getAttribute("data-id");
+  //   });
+
+  //   setFormData({ ...formData, categories: selectedCategoryIds });
+  // };
+
+  const { token } = useFirebaseAuth();
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      console.log("Making API request...");
+
+      // Serialize the form data and send it to your API
+      const response = await fetch(`${BACKEND_URL}/moves/add`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          // Include the Firebase token in the authorization header
+          Authorization: token,
+        },
+        body: JSON.stringify(formData),
+      });
+      console.log("Headers:", response.headers);
+      console.log("authorisation token", token);
+      console.log("this is jsonbody", JSON.stringify(formData));
+
+      if (response.status === 201) {
+        // Handle success (e.g., show a success message)
+      } else {
+        console.error("Error", response.status);
+      }
+    } catch (error) {
+      console.error("API request failed:", error);
+    }
+  };
+
   return (
     <Container>
       <Wrapper>
         <Title>Add a custom move</Title>
-        <Form>
+        <Form onSubmit={handleSubmit}>
           <InputContainer>
-            <TextField fullWidth label="Move name" variant="outlined" />
+            <TextField
+              fullWidth
+              label="title"
+              variant="outlined"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+            />
           </InputContainer>
           <InputContainer>
             <TextField
               fullWidth
-              label="Move aliases (optional)"
+              label="alias"
               variant="outlined"
+              name="alias"
+              value={formData.alias.join(",")}
+              onChange={handleAliasTextChange}
             />
           </InputContainer>
           <InputContainer>
-            <DifficultySelector />
+            <DifficultySelector
+              name="difficulty"
+              value={formData.difficulty}
+              onChange={(value) => {
+                setFormData({ ...formData, difficulty: value });
+              }}
+              // onChange={handleDifficultyChange}
+            />
           </InputContainer>
           <InputContainer>
-            <ProficiencySelector />
+            <ProficiencySelector
+              name="proficiency"
+              value={formData.proficiency}
+              onChange={(value) => {
+                setFormData({ ...formData, proficiency: value });
+              }}
+              // onChange={handleDifficultyChange}
+            />
           </InputContainer>
           <InputContainer>
-            <CategorySelector />
+            <CategorySelector
+              name="categories"
+              value={formData.categories}
+              onChange={handleCategoriesChange}
+            />
           </InputContainer>
           <TextField
             id="outlined-multiline-static"
-            label="Add your notes here"
+            label="Add the move's description here"
             fullWidth
             multiline
             rows={4}
+            name="desc"
+            value={formData.desc}
+            onChange={handleChange}
           />
 
           <InputContainer>
-            <Button variant="outlined">Create new move</Button>
+            <Button variant="outlined" type="submit">
+              Create new move
+            </Button>
           </InputContainer>
         </Form>
       </Wrapper>
