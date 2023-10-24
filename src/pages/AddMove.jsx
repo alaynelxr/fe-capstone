@@ -8,6 +8,11 @@ import CategorySelector from "../components/CategorySelector";
 import React, { useState } from "react";
 import { useFirebaseAuth } from "../config/useFirebaseAuth";
 import { BACKEND_URL } from "../constants";
+import { useNavigate } from "react-router-dom";
+
+// toast notification
+import { Slide, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Container = styled.div`
   width: 100vw;
@@ -49,6 +54,8 @@ const InputContainer = styled.div`
 `;
 
 const AddMoveForm = () => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     title: "",
     alias: [],
@@ -100,6 +107,10 @@ const AddMoveForm = () => {
 
       if (response.status === 201) {
         // Handle success (e.g., show a success message)
+        toast.success("New move added successfully!", {
+          autoClose: 3000,
+          onClose: () => navigate("/moves"),
+        });
       } else {
         console.error("Error", response.status);
       }
@@ -111,6 +122,20 @@ const AddMoveForm = () => {
   return (
     <Container>
       <Wrapper>
+        <ToastContainer
+          position="top-center"
+          // autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          icon={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+          transition={Slide}
+        />
         <Title>Add a custom move</Title>
         <Form onSubmit={handleSubmit}>
           <InputContainer>

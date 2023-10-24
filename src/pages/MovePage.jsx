@@ -3,7 +3,7 @@ import { BACKEND_URL } from "../constants";
 import styled from "styled-components";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import AddButton from "../components/AddButton";
+import AddButton from "../components/AddMoveButton";
 import { mobile } from "../responsive";
 
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
@@ -80,7 +80,7 @@ const Label = styled.button`
   opacity: 0.8;
 
   &:hover {
-    background-color: #f8f4f4;
+    background-color: #00808050;
   }
 `;
 
@@ -88,7 +88,7 @@ const MovePage = () => {
   const [singleMoveData, setSingleMoveData] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [selectedProficiency, setSelectedProficiency] = useState(""); // State to hold the selected proficiency
-
+  const [moveId, setMoveId] = useState(""); // Initialize with a default value, or an empty string
   const auth = getAuth();
 
   auth.onAuthStateChanged((user) => {
@@ -150,6 +150,39 @@ const MovePage = () => {
 
   console.log(singleMoveData);
 
+  useEffect(() => {
+    if (selectedProficiency && moveId) {
+      // Prepare the request data
+      console.log("Preparing proficiency update request...");
+      const requestData = {
+        updatedProficiencyLevel: selectedProficiency,
+      };
+
+      // Send an API request to update the user's proficiency
+      fetch(`${BACKEND_URL}/moves/updateProficiency`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestData),
+      })
+        .then((response) => {
+          if (response.ok) {
+            // The proficiency update was successful
+            console.log("Proficiency updated successfully");
+          } else {
+            // Handle errors if the request was not successful
+            throw new Error(
+              `Proficiency update failed: ${response.status} - ${response.statusText}`
+            );
+          }
+        })
+        .catch((error) => {
+          console.error("Error updating proficiency:", error);
+        });
+    }
+  }, [selectedProficiency, moveId]);
+
   return (
     <Container>
       <Navbar />
@@ -179,9 +212,10 @@ const MovePage = () => {
                   value={
                     singleMoveData?.userProficiency.level || "Not attempted"
                   }
-                  onChange={(newProficiency) =>
-                    setSelectedProficiency(newProficiency)
-                  }
+                  onChange={(newProficiency) => {
+                    console.log("New Proficiency Selected:", newProficiency);
+                    setSelectedProficiency(newProficiency);
+                  }}
                 />
               </SelectorContainer>
               <SelectorContainer>

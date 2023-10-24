@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import { getAuth } from "firebase/auth";
+import React, { useState, useEffect } from "react";
 
 const Container = styled.div`
   height: 30px;
@@ -12,7 +14,22 @@ const Container = styled.div`
 `;
 
 const Welcomebanner = () => {
-  return <Container>Welcome back, `user`!</Container>;
+  const auth = getAuth(); // Replace with your auth context hook.
+
+  const [userEmail, setUserEmail] = useState(null);
+
+  useEffect(() => {
+    if (auth.currentUser) {
+      // If the user is logged in, set the userEmail state.
+      setUserEmail(auth.currentUser.email);
+    }
+  }, [auth.currentUser]);
+  return (
+    <Container>
+      {" "}
+      {userEmail ? `Welcome back, ${userEmail}!` : "Welcome!"}
+    </Container>
+  );
 };
 
 export default Welcomebanner;

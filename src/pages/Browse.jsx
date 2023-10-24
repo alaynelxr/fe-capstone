@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar";
 import FeaturedMoves from "../components/FeaturedMoves";
 import SearchBar from "../components/SearchBar";
 import Footer from "../components/Footer";
-import AddButton from "../components/AddButton";
+import AddButton from "../components/AddMoveButton";
 import { mobile } from "../responsive";
 
 import React, { useState, useEffect } from "react";
