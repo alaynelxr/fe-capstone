@@ -11,7 +11,7 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import ProficiencySelector from "../components/ProficiencySelector";
 
-import { useFirebaseAuth } from "../config/useFirebaseAuth";
+// import { useFirebaseAuth } from "../config/useFirebaseAuth";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const Container = styled.div``;
@@ -99,52 +99,117 @@ const MovePage = () => {
     }
   });
 
+  // useEffect(() => {
+  //   const id = window.location.pathname.split("/").pop();
+  //   const auth = getAuth(); // Get the Firebase Auth instance
+
+  //   // Listen for changes in the authentication state
+  //   const unsubscribe = auth.onAuthStateChanged((user) => {
+  //     if (user) {
+  //       // If the user is logged in, you can get their UID and use it in your API request
+  //       user
+  //         .getIdToken()
+  //         .then((idToken) => {
+  //           console.log("After fetch");
+  //           return fetch(`${BACKEND_URL}/moves/${id}`, {
+  //             method: "GET",
+  //             headers: {
+  //               Authorization: `${idToken}`,
+  //             },
+  //           });
+  //         })
+  //         .then((response) => {
+  //           if (response.ok) {
+  //             return response.json();
+  //           } else {
+  //             throw new Error(
+  //               `Error fetching move: ${response.status} - ${response.statusText}`
+  //             );
+  //           }
+  //         })
+  //         .then((data) => {
+  //           setSingleMoveData(data);
+  //           console.log(data);
+  //         })
+  //         .catch((error) => console.error(error));
+  //     } else {
+  //       // Handle the case where the user is not logged in
+  //       // You can fetch data without the user's UID or proficiency
+  //       fetch(`${BACKEND_URL}/moves/${id}`)
+  //         .then((response) => response.json())
+  //         .then((data) => {
+  //           setSingleMoveData(data);
+  //         })
+  //         .catch((error) => console.error(error));
+  //     }
+  //   });
+
+  //   return unsubscribe; // Cleanup when the component unmounts
+  // }, []);
   useEffect(() => {
     const id = window.location.pathname.split("/").pop();
-    const auth = getAuth(); // Get the Firebase Auth instance
+    const fetchData = async () => {
+      try {
+        const auth = getAuth(); // Get the Firebase Auth instance
 
-    // Listen for changes in the authentication state
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        // If the user is logged in, you can get their UID and use it in your API request
-        user
-          .getIdToken()
-          .then((idToken) => {
-            console.log("After fetch");
-            return fetch(`${BACKEND_URL}/moves/${id}`, {
-              method: "GET",
-              headers: {
-                Authorization: `${idToken}`,
-              },
-            });
-          })
-          .then((response) => {
-            if (response.ok) {
-              return response.json();
-            } else {
-              throw new Error(
-                `Error fetching move: ${response.status} - ${response.statusText}`
-              );
-            }
-          })
-          .then((data) => {
-            setSingleMoveData(data);
-            console.log(data);
-          })
-          .catch((error) => console.error(error));
-      } else {
-        // Handle the case where the user is not logged in
-        // You can fetch data without the user's UID or proficiency
-        fetch(`${BACKEND_URL}/moves/${id}`)
-          .then((response) => response.json())
-          .then((data) => {
-            setSingleMoveData(data);
-          })
-          .catch((error) => console.error(error));
+        // Listen for changes in the authentication state
+        const unsubscribe = auth.onAuthStateChanged((user) => {
+          const url = user
+            ? `${BACKEND_URL}/moves/${id}/loggedIn`
+            : `${BACKEND_URL}/moves/${id}/public`;
+
+          // If the user is logged in, you can get their ID token and use it in your API request
+          if (user) {
+            user
+              .getIdToken()
+              .then((idToken) => {
+                return fetch(url, {
+                  method: "GET",
+                  headers: {
+                    Authorization: `${idToken}`,
+                  },
+                });
+              })
+              .then((response) => {
+                if (response.ok) {
+                  return response.json();
+                } else {
+                  throw new Error(
+                    `Error fetching move data: ${response.status} - ${response.statusText}`
+                  );
+                }
+              })
+              .then((data) => {
+                setSingleMoveData(data);
+                console.log(data);
+              })
+              .catch((error) => console.error(error));
+          } else {
+            fetch(url)
+              .then((response) => {
+                if (response.ok) {
+                  return response.json();
+                } else {
+                  throw new Error(
+                    `Error fetching move data: ${response.status} - ${response.statusText}`
+                  );
+                }
+              })
+              .then((data) => {
+                setSingleMoveData(data);
+                console.log(data);
+              })
+              .catch((error) => console.error(error));
+          }
+        });
+
+        return unsubscribe;
+      } catch (error) {
+        console.error("Error", error);
       }
-    });
+    };
 
-    return unsubscribe; // Cleanup when the component unmounts
+    fetchData();
   }, []);
 
   const categories = singleMoveData?.categories || [];

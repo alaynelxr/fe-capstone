@@ -8,6 +8,7 @@ import { mobile } from "../responsive";
 
 import React, { useState, useEffect } from "react";
 import { BACKEND_URL } from "../constants";
+import { getAuth } from "firebase/auth";
 
 const Container = styled.div``;
 
@@ -55,15 +56,80 @@ const Browse = () => {
   console.log(filters);
   console.log(searchQuery);
 
+  // get all moves
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const res = await fetch(`${BACKEND_URL}/moves/public`);
+  //       if (!res.ok) {
+  //         throw new Error("Failed to fetch data");
+  //       }
+  //       const data = await res.json();
+  //       setMoveData(data);
+  //     } catch (error) {
+  //       console.error("Error", error);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(`${BACKEND_URL}/moves`);
-        if (!res.ok) {
-          throw new Error("Failed to fetch data");
-        }
-        const data = await res.json();
-        setMoveData(data);
+        const auth = getAuth(); // Get the Firebase Auth instance
+
+        // Listen for changes in the authentication state
+        const unsubscribe = auth.onAuthStateChanged((user) => {
+          const url = user
+            ? `${BACKEND_URL}/moves/loggedIn`
+            : `${BACKEND_URL}/moves/public`;
+
+          // If the user is logged in, you can get their ID token and use it in your API request
+          if (user) {
+            user
+              .getIdToken()
+              .then((idToken) => {
+                return fetch(url, {
+                  method: "GET",
+                  headers: {
+                    Authorization: `${idToken}`,
+                  },
+                });
+              })
+              .then((response) => {
+                if (response.ok) {
+                  return response.json();
+                } else {
+                  throw new Error(
+                    `Error fetching data: ${response.status} - ${response.statusText}`
+                  );
+                }
+              })
+              .then((data) => {
+                setMoveData(data);
+              })
+              .catch((error) => console.error(error));
+          } else {
+            // Handle the case where the user is not logged in
+            fetch(url)
+              .then((response) => {
+                if (response.ok) {
+                  return response.json();
+                } else {
+                  throw new Error(
+                    `Error fetching data: ${response.status} - ${response.statusText}`
+                  );
+                }
+              })
+              .then((data) => {
+                setMoveData(data);
+              })
+              .catch((error) => console.error(error));
+          }
+        });
+
+        return unsubscribe;
       } catch (error) {
         console.error("Error", error);
       }
