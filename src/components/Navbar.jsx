@@ -26,11 +26,6 @@ const Left = styled.div`
   align-items: center;
 `;
 
-const Input = styled.input`
-  border: none;
-  ${mobile({ width: "50px" })}
-`;
-
 const Center = styled.div`
   flex: 1;
   text-align: center;
@@ -101,11 +96,9 @@ const Navbar = () => {
         <Right>
           {isLoggedIn ? ( // Check if the user is logged in
             <MenuItem>
-              <Badge color="primary" variant="dot">
-                <AccountCircleOutlined
-                  onClick={(event) => (window.location.href = "/profile")}
-                />
-              </Badge>
+              <AccountCircleOutlined
+                onClick={(event) => (window.location.href = "/profile")}
+              />
             </MenuItem>
           ) : (
             <MenuItem>

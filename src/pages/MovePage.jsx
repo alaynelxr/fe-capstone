@@ -3,7 +3,7 @@ import { BACKEND_URL } from "../constants";
 import styled from "styled-components";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import AddButton from "../components/AddMoveButton";
+import AddButton from "../components/AddButton";
 import { mobile } from "../responsive";
 
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
@@ -89,6 +89,7 @@ const MovePage = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [selectedProficiency, setSelectedProficiency] = useState(""); // State to hold the selected proficiency
   const [moveId, setMoveId] = useState(""); // Initialize with a default value, or an empty string
+
   const auth = getAuth();
 
   auth.onAuthStateChanged((user) => {
@@ -150,36 +151,85 @@ const MovePage = () => {
 
   console.log(singleMoveData);
 
+  // function to update proficiency level
+
   useEffect(() => {
+    const moveId = window.location.pathname.split("/").pop();
+    const auth = getAuth();
+    console.log("selectedProficiency:", selectedProficiency); // Log selectedProficiency
+    console.log("moveId:", moveId); // Log moveId
     if (selectedProficiency && moveId) {
       // Prepare the request data
+
       console.log("Preparing proficiency update request...");
+
       const requestData = {
         updatedProficiencyLevel: selectedProficiency,
+        moveId: moveId,
       };
+      // Listen for changes in the authentication state
+      const unsubscribe = auth.onAuthStateChanged((user) => {
+        if (user) {
+          // If the user is logged in, you can get their ID token
+          user
+            .getIdToken()
+            .then((idToken) => {
+              // Send an API request to update proficiency with the ID token as an Authorization header
+              return fetch(`${BACKEND_URL}/moves/${moveId}/updateProficiency`, {
+                method: "PATCH",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: idToken, // Include the ID token as an Authorization header
+                },
+                body: JSON.stringify(requestData),
+              });
+            })
+            .then((response) => {
+              console.log("Response status:", response.status);
+              if (response.ok) {
+                // The proficiency update was successful
+                console.log("Proficiency updated successfully");
+              } else {
+                // Handle errors if the request was not successful
+                throw new Error(
+                  `Proficiency update failed: ${response.status} - ${response.statusText}`
+                );
+              }
+            })
+            .catch((error) => {
+              console.error("Error updating proficiency:", error);
+            });
+        } else {
+          console.log(
+            "User is not logged in. Proficiency update requires authentication."
+          );
+        }
+      });
 
-      // Send an API request to update the user's proficiency
-      fetch(`${BACKEND_URL}/moves/updateProficiency`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestData),
-      })
-        .then((response) => {
-          if (response.ok) {
-            // The proficiency update was successful
-            console.log("Proficiency updated successfully");
-          } else {
-            // Handle errors if the request was not successful
-            throw new Error(
-              `Proficiency update failed: ${response.status} - ${response.statusText}`
-            );
-          }
-        })
-        .catch((error) => {
-          console.error("Error updating proficiency:", error);
-        });
+      return unsubscribe;
+      //     // Send an API request to update the user's proficiency
+      //     fetch(`${BACKEND_URL}/moves/${id}/updateProficiency`, {
+      //       method: "PATCH",
+      //       headers: {
+      //         "Content-Type": "application/json",
+      //       },
+      //       body: JSON.stringify(requestData),
+      //     })
+      //       .then((response) => {
+      //         console.log("Response status:", response.status);
+      //         if (response.ok) {
+      //           // The proficiency update was successful
+      //           console.log("Proficiency updated successfully");
+      //         } else {
+      //           // Handle errors if the request was not successful
+      //           throw new Error(
+      //             `Proficiency update failed: ${response.status} - ${response.statusText}`
+      //           );
+      //         }
+      //       })
+      //       .catch((error) => {
+      //         console.error("Error updating proficiency:", error);
+      //       });
     }
   }, [selectedProficiency, moveId]);
 

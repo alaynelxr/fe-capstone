@@ -10,6 +10,7 @@ import AllListsPage from "./pages/AllListsPage";
 import TestPage from "./pages/TestPage";
 import SignUp from "./pages/SignUp";
 import Profile from "./pages/Profile";
+import Report from "./pages/ReportPage";
 
 import {
   BrowserRouter as Router,
@@ -32,6 +33,7 @@ const App = () => {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/moves/add" element={<AddMoveForm />} />
+        <Route path="/report" element={<Report />} />
       </Routes>
     </Router>
   );

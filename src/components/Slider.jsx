@@ -6,7 +6,7 @@ import { mobile } from "../responsive";
 
 const Container = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 40vh;
   display: flex;
   position: relative;
   overflow: hidden;
@@ -41,7 +41,7 @@ const Wrapper = styled.div`
 
 const Slide = styled.div`
   width: 100vw;
-  height: 100vh;
+  height: 50vh;
   display: flex;
   align-items: center;
   background-color: #${(props) => props.bg};
@@ -58,16 +58,16 @@ const Image = styled.img`
 
 const InfoContainer = styled.div`
   flex: 2;
-  padding: 50px;
+  padding: 10px;
   overflow: hidden;
 `;
 
 const Title = styled.h1`
-  font-size: 60px;
+  font-size: 40px;
 `;
 
 const Desc = styled.p`
-  margin: 50px 15px;
+  margin: 30px 0px;
   font-size: 20px;
   font-weight: 500;
   letter-spacing: 3px;
@@ -75,7 +75,7 @@ const Desc = styled.p`
 
 const Button = styled.button`
   padding: 10px;
-  font-size: 20px;
+  font-size: 16px;
   background-color: transparent;
   cursor: pointer;
 `;
