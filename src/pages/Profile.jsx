@@ -6,10 +6,15 @@ import { getAuth } from "firebase/auth";
 import styled from "styled-components";
 import { mobile } from "../responsive";
 import loginPage2 from "../assets/loginPage2.png";
+import Modal from "@mui/material/Modal";
+import Report from "./ReportPage";
+import { useReward } from "react-rewards";
+import Navbar from "../components/Navbar";
+import CelebrationRoundedIcon from "@mui/icons-material/CelebrationRounded";
 
 const Container = styled.div`
   width: 100vw;
-  height: 100vh;
+  height: 90vh;
   background: #fdf8ef;
   background: linear-gradient(
       rgba(255, 255, 255, 0.5),
@@ -20,12 +25,15 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 `;
 
 const Wrapper = styled.div`
   width: 25%;
   padding: 20px;
+  margin: 10px;
   background-color: white;
+  flex-direction: row;
   ${mobile({ width: "75%" })}
 `;
 
@@ -56,11 +64,18 @@ const Button = styled.button`
   margin-bottom: 10px;
 `;
 
-const LinkText = styled.a`
-  margin: 5px 0px;
-  font-size: 12px;
-  text-decoration: underline;
+const TransparentButton = styled.button`
+  width: 20%;
+  border: none;
+  padding: 5px 5px;
+  background: none;
   cursor: pointer;
+  margin-bottom: 10px;
+`;
+
+const Text = styled.a`
+  margin: 5px 0px;
+  font-size: 18px;
 `;
 
 const Profile = () => {
@@ -69,6 +84,12 @@ const Profile = () => {
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const auth = getAuth();
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const { reward, isAnimating } = useReward("rewardId", "balloons");
 
   auth.onAuthStateChanged((authUser) => {
     if (authUser) {
@@ -87,12 +108,36 @@ const Profile = () => {
   };
 
   return (
-    <Container>
-      <Wrapper>
-        {user ? <Title>Hey, {user.email}. You're logged in!</Title> : null}
-        <Button onClick={(e) => logoutUser(e)}>LOGOUT</Button>
-      </Wrapper>
-    </Container>
+    <>
+      <Navbar />
+      <Container>
+        <Wrapper>
+          {user ? <Text>Hey, {user.email}. You're logged in!</Text> : null}
+          <Button onClick={(e) => logoutUser(e)}>LOGOUT</Button>
+        </Wrapper>
+        <Wrapper>
+          <Text>View your progress</Text>
+          <TransparentButton
+            disabled={isAnimating}
+            onClick={() => {
+              reward();
+              handleOpen();
+            }}
+          >
+            <span id="rewardId" />
+            🎈
+          </TransparentButton>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Report />
+          </Modal>
+        </Wrapper>
+      </Container>
+    </>
   );
 };
 

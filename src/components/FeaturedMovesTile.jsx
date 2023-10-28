@@ -30,6 +30,7 @@ const Container = styled(Link)`
   justify-content: center;
   background-color: rgba(217, 217, 217, 0.2);
   position: relative;
+  text-decoration: none;
 
   &:hover ${Info} {
     opacity: 1;
@@ -71,9 +72,6 @@ const FeaturedMovesTile = ({ item }) => {
       <Info>
         <Icon>
           <SearchOutlined />
-        </Icon>
-        <Icon>
-          <FavoriteBorderOutlined />
         </Icon>
       </Info>
     </Container>

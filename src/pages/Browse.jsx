@@ -143,14 +143,21 @@ const Browse = () => {
     setFilteredMoves(
       moveData.filter((item) => {
         return (
-          Object.entries(filters).every(([key, value]) => {
+          (Object.entries(filters).every(([key, value]) => {
             const nestedPropertyValue =
               key === "difficulty" ? item[key]?.title : item[key]?.[0]?.title;
+            console.log("Alias:", item.alias);
+            console.log("Search Query:", searchQuery);
+
             return nestedPropertyValue && nestedPropertyValue.includes(value);
-          }) && item.title.toLowerCase().includes(searchQuery.toLowerCase())
-          // ||            item.aliases.some((alias) =>
-          //     alias.toLowerCase().includes(searchQuery.toLowerCase())
-          //   )
+          }) &&
+            item.title.toLowerCase().includes(searchQuery.toLowerCase())) ||
+          (item.alias &&
+            item.alias
+              .map((aliasObj) => aliasObj.name) // Extract the alias names
+              .some((alias) =>
+                alias.toLowerCase().includes(searchQuery.toLowerCase())
+              ))
         );
       })
     );

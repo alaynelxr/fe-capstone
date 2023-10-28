@@ -10,6 +10,10 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import ProficiencySelector from "../components/ProficiencySelector";
+import DeleteButton from "../components/DeleteButton";
+import { useNavigate } from "react-router-dom";
+import { Slide, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // import { useFirebaseAuth } from "../config/useFirebaseAuth";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -91,6 +95,8 @@ const MovePage = () => {
   const [moveId, setMoveId] = useState(""); // Initialize with a default value, or an empty string
 
   const auth = getAuth();
+  const id = window.location.pathname.split("/").pop();
+  const navigate = useNavigate();
 
   auth.onAuthStateChanged((user) => {
     if (user) {
@@ -99,53 +105,38 @@ const MovePage = () => {
     }
   });
 
-  // useEffect(() => {
-  //   const id = window.location.pathname.split("/").pop();
-  //   const auth = getAuth(); // Get the Firebase Auth instance
+  const handleDelete = async () => {
+    try {
+      const auth = getAuth();
+      const user = auth.currentUser;
+      if (user) {
+        const idToken = await user.getIdToken();
+        const response = await fetch(`${BACKEND_URL}/moves/${id}/loggedIn`, {
+          method: "DELETE",
+          headers: {
+            Authorization: idToken,
+          },
+        });
 
-  //   // Listen for changes in the authentication state
-  //   const unsubscribe = auth.onAuthStateChanged((user) => {
-  //     if (user) {
-  //       // If the user is logged in, you can get their UID and use it in your API request
-  //       user
-  //         .getIdToken()
-  //         .then((idToken) => {
-  //           console.log("After fetch");
-  //           return fetch(`${BACKEND_URL}/moves/${id}`, {
-  //             method: "GET",
-  //             headers: {
-  //               Authorization: `${idToken}`,
-  //             },
-  //           });
-  //         })
-  //         .then((response) => {
-  //           if (response.ok) {
-  //             return response.json();
-  //           } else {
-  //             throw new Error(
-  //               `Error fetching move: ${response.status} - ${response.statusText}`
-  //             );
-  //           }
-  //         })
-  //         .then((data) => {
-  //           setSingleMoveData(data);
-  //           console.log(data);
-  //         })
-  //         .catch((error) => console.error(error));
-  //     } else {
-  //       // Handle the case where the user is not logged in
-  //       // You can fetch data without the user's UID or proficiency
-  //       fetch(`${BACKEND_URL}/moves/${id}`)
-  //         .then((response) => response.json())
-  //         .then((data) => {
-  //           setSingleMoveData(data);
-  //         })
-  //         .catch((error) => console.error(error));
-  //     }
-  //   });
+        if (response.ok) {
+          // Handle the successful delete
+          console.log("Move deleted successfully");
+          toast.success("Move deleted successfully!", {
+            autoClose: 2000,
+            onClose: () => navigate("/moves"),
+          });
+          // You can also perform any additional actions like navigating the user to a different page.
+        } else {
+          throw new Error(
+            `Error deleting move: ${response.status} - ${response.statusText}`
+          );
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-  //   return unsubscribe; // Cleanup when the component unmounts
-  // }, []);
   useEffect(() => {
     const id = window.location.pathname.split("/").pop();
     const fetchData = async () => {
@@ -202,7 +193,6 @@ const MovePage = () => {
               .catch((error) => console.error(error));
           }
         });
-
         return unsubscribe;
       } catch (error) {
         console.error("Error", error);
@@ -253,7 +243,11 @@ const MovePage = () => {
               console.log("Response status:", response.status);
               if (response.ok) {
                 // The proficiency update was successful
-                console.log("Proficiency updated successfully");
+                console.log(
+                  "Proficiency updated successfully",
+                  selectedProficiency
+                );
+                setSelectedProficiency(selectedProficiency);
               } else {
                 // Handle errors if the request was not successful
                 throw new Error(
@@ -272,29 +266,6 @@ const MovePage = () => {
       });
 
       return unsubscribe;
-      //     // Send an API request to update the user's proficiency
-      //     fetch(`${BACKEND_URL}/moves/${id}/updateProficiency`, {
-      //       method: "PATCH",
-      //       headers: {
-      //         "Content-Type": "application/json",
-      //       },
-      //       body: JSON.stringify(requestData),
-      //     })
-      //       .then((response) => {
-      //         console.log("Response status:", response.status);
-      //         if (response.ok) {
-      //           // The proficiency update was successful
-      //           console.log("Proficiency updated successfully");
-      //         } else {
-      //           // Handle errors if the request was not successful
-      //           throw new Error(
-      //             `Proficiency update failed: ${response.status} - ${response.statusText}`
-      //           );
-      //         }
-      //       })
-      //       .catch((error) => {
-      //         console.error("Error updating proficiency:", error);
-      //       });
     }
   }, [selectedProficiency, moveId]);
 
@@ -302,12 +273,30 @@ const MovePage = () => {
     <Container>
       <Navbar />
       <Wrapper>
+        <ToastContainer
+          position="top-center"
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          icon={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+          transition={Slide}
+        />
         <ImgContainer>
           <Image src={singleMoveData?.img || ""} />
         </ImgContainer>
         <InfoContainer>
           <Title> {singleMoveData?.title || "Loading ..."}</Title>
-          <Subtitle>aka Static V</Subtitle>
+          {singleMoveData?.alias && singleMoveData.alias.length > 0 && (
+            <Subtitle>
+              aka {singleMoveData.alias.map((alias) => alias.name).join(", ")}
+            </Subtitle>
+          )}
+
           <Header>Difficulty</Header>
           <Label>{singleMoveData?.difficulty?.title || "Loading..."}</Label>
           <Header>Type</Header>
@@ -325,7 +314,7 @@ const MovePage = () => {
               <SelectorContainer>
                 <ProficiencySelector
                   value={
-                    singleMoveData?.userProficiency.level || "Not attempted"
+                    singleMoveData?.userProficiency?.level || "Not attempted"
                   }
                   onChange={(newProficiency) => {
                     console.log("New Proficiency Selected:", newProficiency);
@@ -338,17 +327,10 @@ const MovePage = () => {
                   Upload your photo
                 </Button>
               </SelectorContainer>
-              <Header>Notes</Header>
-              <SelectorContainer>
-                <TextField
-                  id="outlined-multiline-static"
-                  fullWidth
-                  multiline
-                  rows={4}
-                  defaultValue="Add your notes here"
-                />
-              </SelectorContainer>
               <AddButton />
+              <SelectorContainer>
+                <DeleteButton handleDelete={handleDelete} />
+              </SelectorContainer>
             </>
           ) : (
             <Subtitle> Log in to record your progress!</Subtitle>
