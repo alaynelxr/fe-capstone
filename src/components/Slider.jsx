@@ -10,7 +10,6 @@ const Container = styled.div`
   display: flex;
   position: relative;
   overflow: hidden;
-  ${mobile({ display: "none" })}
 `;
 
 const Arrow = styled.div`
@@ -54,12 +53,14 @@ const ImgContainer = styled.div`
 
 const Image = styled.img`
   height: 80%;
+  ${mobile({ height: "100%" })}
 `;
 
 const InfoContainer = styled.div`
   flex: 2;
-  padding: 10px;
+  padding: 20px 60px 20px 30px;
   overflow: hidden;
+  ${mobile({ display: "none" })}
 `;
 
 const Title = styled.h1`
@@ -73,8 +74,28 @@ const Desc = styled.p`
   letter-spacing: 3px;
 `;
 
-const Button = styled.button`
+const Button = styled.a`
+  display: inline-block;
   padding: 10px;
+  font-size: 16px;
+  background-color: transparent;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid #656565; /* Add a border */
+  border-radius: 4px; /* Add rounded corners */
+  text-decoration: none;
+  cursor: pointer;
+  text-align: center;
+  &:hover {
+    background-color: #ffffff;
+    transform: scale(1.02);
+  }
+`;
+
+const ImageButton = styled.a`
+  display: inline-block;
+  padding: 0px;
   font-size: 16px;
   background-color: transparent;
   cursor: pointer;
@@ -91,28 +112,32 @@ const Slider = () => {
   };
 
   return (
-    <Container>
-      <Arrow direction="left" onClick={() => handleClick("left")}>
-        <ArrowLeftOutlined />
-      </Arrow>
-      <Wrapper slideIndex={slideIndex}>
-        {sliderItems.map((item) => (
-          <Slide bg={item.bg} key={item.id}>
-            <ImgContainer>
-              <Image src={item.img} />
-            </ImgContainer>
-            <InfoContainer>
-              <Title>{item.title}</Title>
-              <Desc>{item.desc}</Desc>
-              <Button>Check it out</Button>
-            </InfoContainer>
-          </Slide>
-        ))}
-      </Wrapper>
-      <Arrow direction="right" onClick={() => handleClick("right")}>
-        <ArrowRightOutlined />
-      </Arrow>
-    </Container>
+    <>
+      <Container>
+        <Arrow direction="left" onClick={() => handleClick("left")}>
+          <ArrowLeftOutlined />
+        </Arrow>
+        <Wrapper slideIndex={slideIndex}>
+          {sliderItems.map((item) => (
+            <Slide bg={item.bg} key={item.id}>
+              <ImgContainer>
+                <ImageButton href={item.linkTo}>
+                  <Image src={item.img} />
+                </ImageButton>
+              </ImgContainer>
+              <InfoContainer>
+                <Title>{item.title}</Title>
+                <Desc>{item.desc}</Desc>
+                <Button href={item.linkTo}>Check it out</Button>
+              </InfoContainer>
+            </Slide>
+          ))}
+        </Wrapper>
+        <Arrow direction="right" onClick={() => handleClick("right")}>
+          <ArrowRightOutlined />
+        </Arrow>
+      </Container>
+    </>
   );
 };
 

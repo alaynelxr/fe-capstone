@@ -1,42 +1,27 @@
 export const sliderItems = [
   {
     id: 1,
-    img: "https://i.pinimg.com/564x/85/5d/a7/855da710fe3167b141184b26f7f3208d.jpg",
-    title: "HIP HUGGER",
+    img: "https://firebasestorage.googleapis.com/v0/b/movement-1c146.appspot.com/o/ayeshaElbow.jpg?alt=media&token=a229caa7-5c32-4b88-85e1-367c504735d2",
+    title: "ELBOW AYESHA",
     desc: "Have you tried this variant yet? See the tutorial",
     bg: "f5fafd",
+    linkTo: "/move/clo9r3b4c0004svqodznuhzdh",
   },
   {
     id: 2,
-    img: "https://i.pinimg.com/564x/e7/8d/86/e78d86986e080d88913f81f89730a114.jpg",
-    title: "BANANA SPLIT",
-    desc: "Reward yourself with an actual one after this move.",
+    img: "https://firebasestorage.googleapis.com/v0/b/movement-1c146.appspot.com/o/martiniPole.jpg?alt=media&token=7d91a7ca-6de0-4eac-bcc7-0b390f2a5e0a",
+    title: "MARTINI",
+    desc: "Named after the shape of a martini glass, treat yourself with an actual one after this move.",
     bg: "fcf1ed",
+    linkTo: "/move/clnfi2myk000asvx1ihhnrhku",
   },
   {
     id: 3,
-    img: "https://i.pinimg.com/564x/58/53/70/585370ef0a476884c1887c7d5fce252f.jpg",
+    img: "https://firebasestorage.googleapis.com/v0/b/movement-1c146.appspot.com/o/cupidPole.jpg?alt=media&token=9bbbbfa2-639f-4d1c-9b05-355d5ea0c34d",
     title: "CUPID",
-    desc: "Love hearts all around, shoot your cupid's arrow in this move.",
+    desc: "Shoot your cupid's arrow in this move.",
     bg: "fbf0f4",
-  },
-];
-
-export const categories = [
-  {
-    id: 1,
-    img: "https://images.pexels.com/photos/5886041/pexels-photo-5886041.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-    title: "SHIRT STYLE!",
-  },
-  {
-    id: 2,
-    img: "https://images.pexels.com/photos/2983464/pexels-photo-2983464.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-    title: "LOUNGEWEAR LOVE",
-  },
-  {
-    id: 3,
-    img: "https://images.pexels.com/photos/5480696/pexels-photo-5480696.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    title: "LIGHT JACKETS",
+    linkTo: "/move/clo9rtkks0006svqovhv9nzpb",
   },
 ];
 

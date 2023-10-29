@@ -138,30 +138,83 @@ const Browse = () => {
     fetchData();
   }, []);
 
+  const isAliasMatch = (item, searchQuery) => {
+    return (
+      item.alias &&
+      item.alias.some((aliasObj) =>
+        aliasObj.name.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    );
+  };
+
+  moveData.forEach((item) => {
+    item.isAliasMatch = isAliasMatch(item, searchQuery);
+  });
+
   useEffect(() => {
     // Filter moves based on searchQuery and filters
     setFilteredMoves(
       moveData.filter((item) => {
+        // Add a new field to the item object called isAliasMatch
+        item.isAliasMatch = isAliasMatch(item, searchQuery);
+
+        const titleMatch = item.title
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase());
+
+        // Update the filtering condition to include the isAliasMatch field
         return (
-          (Object.entries(filters).every(([key, value]) => {
+          Object.entries(filters).every(([key, value]) => {
             const nestedPropertyValue =
               key === "difficulty" ? item[key]?.title : item[key]?.[0]?.title;
-            console.log("Alias:", item.alias);
-            console.log("Search Query:", searchQuery);
 
             return nestedPropertyValue && nestedPropertyValue.includes(value);
           }) &&
-            item.title.toLowerCase().includes(searchQuery.toLowerCase())) ||
-          (item.alias &&
-            item.alias
-              .map((aliasObj) => aliasObj.name) // Extract the alias names
-              .some((alias) =>
-                alias.toLowerCase().includes(searchQuery.toLowerCase())
-              ))
+          (titleMatch || item.isAliasMatch)
         );
       })
     );
+
+    console.log("Filters:", filters);
+    console.log("Search Query:", searchQuery);
   }, [moveData, filters, searchQuery]);
+
+  // useEffect(() => {
+  //   // Filter moves based on searchQuery and filters
+  //   setFilteredMoves(
+  //     moveData.filter((item) => {
+  //       const titleMatch = item.title
+  //         .toLowerCase()
+  //         .includes(searchQuery.toLowerCase());
+
+  //       // Debugging statement: Check if the title match condition is met
+  //       console.log("Title Match for", item.title, ":", titleMatch);
+  //       return (
+  //         (Object.entries(filters).every(([key, value]) => {
+  //           const nestedPropertyValue =
+  //             key === "difficulty" ? item[key]?.title : item[key]?.[0]?.title;
+  //           console.log("Nested Property Value:", nestedPropertyValue);
+  //           console.log(
+  //             "Conditions Met:",
+  //             nestedPropertyValue && nestedPropertyValue.includes(value)
+  //           );
+  //           console.log("Item Alias:", item.alias);
+
+  //           return nestedPropertyValue && nestedPropertyValue.includes(value);
+  //         }) &&
+  //           item.title.toLowerCase().includes(searchQuery.toLowerCase())) ||
+  //         (item.alias &&
+  //           item.alias
+  //             .map((aliasObj) => aliasObj.name) // Extract the alias names
+  //             .some((alias) =>
+  //               alias.toLowerCase().includes(searchQuery.toLowerCase())
+  //             ))
+  //       );
+  //     })
+  //   );
+  //   console.log("Filters:", filters);
+  //   console.log("Search Query:", searchQuery);
+  // }, [moveData, filters, searchQuery]);
 
   return (
     <Container>

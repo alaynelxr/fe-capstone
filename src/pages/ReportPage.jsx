@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { mobile } from "../responsive";
-import { useReward } from "react-rewards";
 import { BACKEND_URL } from "../constants";
 
 // Google Authentication
@@ -24,7 +23,6 @@ const Report = () => {
   const [learningCount, setLearningCount] = useState(0);
   const [competentCount, setCompetentCount] = useState(0);
   const [expertCount, setExpertCount] = useState(0);
-  // const { reward, isAnimating } = useReward("rewardId", "balloons");
 
   const auth = getAuth();
 
@@ -157,13 +155,6 @@ const Report = () => {
       </Box>
     </>
   );
-  // <Button disabled={isAnimating} onClick={reward}>
-  //   <span
-  //     id="rewardId"
-  //     style={{ width: 2, height: 2, background: "red" }}
-  //   />
-  //   🎉
-  // </Button>
 };
 
 export default Report;

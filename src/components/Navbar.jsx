@@ -40,7 +40,7 @@ const Right = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  ${mobile({ flex: 2, justifyContent: "center" })}
+  ${mobile({ flex: 1, justifyContent: "center" })}
 `;
 
 const MenuItem = styled.div`
@@ -75,16 +75,9 @@ const Navbar = () => {
     <Container>
       <Wrapper>
         <Left>
-          {isLoggedIn ? ( // Check if the user is logged in
-            <MenuItem>
-              <StyledLink to="/lists">
-                <p>Lists</p>
-              </StyledLink>
-            </MenuItem>
-          ) : null}
           <MenuItem>
             <StyledLink to="/moves">
-              <p>Browse moves</p>
+              <p>All Moves</p>
             </StyledLink>
           </MenuItem>
         </Left>
@@ -107,11 +100,6 @@ const Navbar = () => {
               </StyledLink>
             </MenuItem>
           )}
-          {/* <MenuItem>
-            <Badge color="primary" variant="dot">
-              <AccountCircleOutlined />
-            </Badge>
-          </MenuItem> */}
         </Right>
       </Wrapper>
     </Container>

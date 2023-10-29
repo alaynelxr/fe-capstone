@@ -1,12 +1,5 @@
-import {
-  Facebook,
-  Instagram,
-  MailOutline,
-  Twitter,
-  GitHub,
-  LinkedIn,
-  AccountCircleOutlined,
-} from "@material-ui/icons";
+import { MailOutline, GitHub, LinkedIn } from "@material-ui/icons";
+import IconButton from "@mui/material/IconButton";
 import styled from "styled-components";
 import { mobile } from "../responsive";
 
@@ -28,20 +21,8 @@ const Desc = styled.p`
   margin: 20px 0px;
 `;
 
-const SocialContainer = styled.div`
+const ContactContainer = styled.div`
   display: flex;
-`;
-
-const SocialIcon = styled.div`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  color: white;
-  background-color: #${(props) => props.color};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 20px;
 `;
 
 const Title = styled.h3`
@@ -55,9 +36,8 @@ const Right = styled.div`
 `;
 
 const ContactItem = styled.div`
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
+  margin-bottom: 10px;
+  align-items: left;
 `;
 
 const Footer = () => {
@@ -68,52 +48,40 @@ const Footer = () => {
         <Desc>
           The MOVEMENT app's inception dates back to 2021 when one frustrated
           pole dancer was unsatified with the options available on the market.
-          One Glide app and one coding bootcamp later. This app is every pole
+          One Glide app and one coding bootcamp later, this app is every pole
           dancer's companion and is designed to help you keep track of your
           progress and goals.
         </Desc>
-        <SocialContainer>
-          <SocialIcon color="3B5999">
-            <Facebook />
-          </SocialIcon>
-          <SocialIcon color="E4405F">
-            <Instagram />
-          </SocialIcon>
-          <SocialIcon color="55ACEE">
-            <Twitter />
-          </SocialIcon>
-        </SocialContainer>
       </Left>
       <Right>
-        <Title>Contact</Title>
-        <ContactItem>
-          <AccountCircleOutlined style={{ marginRight: "10px" }} />
-          Alayne Loo
-        </ContactItem>
-        <ContactItem>
-          <MailOutline style={{ marginRight: "10px" }} />
-          <a href="mailto:alaynelxr@gmail.com">alaynelxr@gmail.com</a>
-        </ContactItem>
-        <ContactItem>
-          <LinkedIn style={{ marginRight: "10px" }} />{" "}
-          <a
-            href="https://www.linkedin.com/in/alayne-loo/"
-            target="_blank"
-            rel="noreferrer noopener"
-          >
-            https://www.linkedin.com/in/alayne-loo/
-          </a>
-        </ContactItem>
-        <ContactItem>
-          <GitHub style={{ marginRight: "10px" }} />{" "}
-          <a
-            href="https://github.com/alaynelxr"
-            target="_blank"
-            rel="noreferrer noopener"
-          >
-            https://github.com/alaynelxr
-          </a>
-        </ContactItem>
+        <Title>Made by Alayne</Title>
+        <ContactContainer>
+          <ContactItem>
+            <IconButton href="mailto:alaynelxr@gmail.com">
+              <MailOutline />
+              {/* <a>alaynelxr@gmail.com</a> */}
+            </IconButton>
+          </ContactItem>
+          <ContactItem>
+            <IconButton
+              href="https://www.linkedin.com/in/alayne-loo/"
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              <LinkedIn />
+            </IconButton>
+          </ContactItem>
+
+          <ContactItem>
+            <IconButton
+              href="https://github.com/alaynelxr"
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              <GitHub />{" "}
+            </IconButton>
+          </ContactItem>
+        </ContactContainer>
       </Right>
     </Container>
   );

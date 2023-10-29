@@ -10,7 +10,6 @@ import Modal from "@mui/material/Modal";
 import Report from "./ReportPage";
 import { useReward } from "react-rewards";
 import Navbar from "../components/Navbar";
-import CelebrationRoundedIcon from "@mui/icons-material/CelebrationRounded";
 
 const Container = styled.div`
   width: 100vw;
@@ -57,11 +56,26 @@ const Input = styled.input`
 const Button = styled.button`
   width: 50%;
   border: none;
-  padding: 15px 20px;
+  padding: 15px 10px;
   background-color: teal;
   color: white;
   cursor: pointer;
   margin-bottom: 10px;
+`;
+
+const ProgressButton = styled.button`
+  display: inline-block;
+  padding: 10px;
+  font-size: 16px;
+  background-color: transparent;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid #656565; /* Add a border */
+  border-radius: 4px; /* Add rounded corners */
+  text-decoration: none;
+  cursor: pointer;
+  text-align: center;
 `;
 
 const TransparentButton = styled.button`
@@ -73,9 +87,10 @@ const TransparentButton = styled.button`
   margin-bottom: 10px;
 `;
 
-const Text = styled.a`
-  margin: 5px 0px;
+const Text = styled.p`
   font-size: 18px;
+  margin: 5px 0px;
+  padding-bottom: 10px;
 `;
 
 const Profile = () => {
@@ -113,20 +128,21 @@ const Profile = () => {
       <Container>
         <Wrapper>
           {user ? <Text>Hey, {user.email}. You're logged in!</Text> : null}
-          <Button onClick={(e) => logoutUser(e)}>LOGOUT</Button>
+          {/* <Button onClick={(e) => logoutUser(e)}>LOGOUT</Button> */}
+          <ProgressButton onClick={(e) => logoutUser(e)}>Logout</ProgressButton>
         </Wrapper>
         <Wrapper>
-          <Text>View your progress</Text>
-          <TransparentButton
+          <ProgressButton
             disabled={isAnimating}
             onClick={() => {
               reward();
               handleOpen();
             }}
           >
+            {" "}
             <span id="rewardId" />
-            🎈
-          </TransparentButton>
+            View your progress 🎈
+          </ProgressButton>
           <Modal
             open={open}
             onClose={handleClose}

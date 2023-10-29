@@ -1,4 +1,4 @@
-import { FavoriteBorderOutlined, SearchOutlined } from "@material-ui/icons";
+import { SearchOutlined } from "@material-ui/icons";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
@@ -28,7 +28,7 @@ const Container = styled(Link)`
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  background-color: rgba(217, 217, 217, 0.2);
+  background-color: rgba(255, 255, 255, 0);
   position: relative;
   text-decoration: none;
 
