@@ -225,7 +225,7 @@ const Browse = () => {
         <Filter>
           <FilterText>Filter:</FilterText>
           <Select name="difficulty" onChange={handleFilters}>
-            <Option value="">All</Option>
+            <Option value="">Difficulty</Option>
             <Option value="Intro">Intro</Option>
             <Option value="Beginner">Beginner</Option>
             <Option value="Intermediate">Intermediate</Option>
@@ -233,7 +233,7 @@ const Browse = () => {
             <Option value="Extreme">Extreme</Option>
           </Select>
           <Select name="categories" onChange={handleFilters}>
-            <Option value="">All</Option>
+            <Option value="">Type</Option>
             <Option value="Tricks">Tricks</Option>
             <Option value="Flexibility">Flexibility</Option>
             <Option value="Flips & Drops">Flips & Drops</Option>

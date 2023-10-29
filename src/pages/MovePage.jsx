@@ -3,12 +3,11 @@ import { BACKEND_URL } from "../constants";
 import styled from "styled-components";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import AddButton from "../components/AddButton";
 import { mobile } from "../responsive";
 
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
+// import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+// import Button from "@mui/material/Button";
+// import TextField from "@mui/material/TextField";
 import ProficiencySelector from "../components/ProficiencySelector";
 import DeleteButton from "../components/DeleteButton";
 import { useNavigate } from "react-router-dom";
@@ -323,14 +322,16 @@ const MovePage = () => {
                   }}
                 />
               </SelectorContainer>
+
               <SelectorContainer>
-                <Button variant="text" startIcon={<CloudUploadIcon />}>
-                  Upload your photo
-                </Button>
-              </SelectorContainer>
-              <AddButton />
-              <SelectorContainer>
-                <DeleteButton handleDelete={handleDelete} />
+                {singleMoveData ? (
+                  singleMoveData.creatorId !== null ? (
+                    <DeleteButton handleDelete={handleDelete} />
+                  ) : null
+                ) : (
+                  // Render a loading indicator, e.g., a spinner
+                  "Pending"
+                )}
               </SelectorContainer>
             </>
           ) : (

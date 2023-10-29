@@ -3,6 +3,7 @@ import { mobile } from "../responsive";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import loginPage2 from "../assets/loginPage2.png";
+import Navbar from "../components/Navbar";
 
 // Google Authentication
 import { auth } from "../config/firebase";
@@ -10,7 +11,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const Container = styled.div`
   width: 100vw;
-  height: 100vh;
+  height: 90vh;
   background: #fdf8ef;
   background: linear-gradient(
       rgba(255, 255, 255, 0.5),
@@ -124,10 +125,12 @@ const SignUp = () => {
         if (response.ok) {
           navigate("/");
         } else {
-          setNotice("Sorry, something went wrong. Please try again.");
+          setNotice("Sorry, something went wrong.");
         }
       } catch {
-        setNotice("Sorry, something went wrong. Please try again.");
+        setNotice(
+          "Sorry, something went wrong. Please make sure your email has @ in it."
+        );
       }
     } else {
       setNotice("Passwords don't match. Please try again.");
@@ -135,36 +138,40 @@ const SignUp = () => {
   };
 
   return (
-    <Container>
-      <Wrapper>
-        <Title>CREATE AN ACCOUNT</Title>
-        <Form>
-          {"" !== notice && (
-            <div className="alert alert-warning" role="alert">
-              {notice}
-            </div>
-          )}
-          <Input
-            placeholder="email address"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <Input
-            type="password"
-            placeholder="password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <Input
-            type="password"
-            placeholder="confirm password"
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-          <Button onClick={(e) => signupWithUsernameAndPassword(e)}>
-            SIGN UP
-          </Button>
-          <LinkText href="/login">ALREADY A USER? LOGIN HERE</LinkText>
-        </Form>
-      </Wrapper>
-    </Container>
+    <>
+      <Navbar />
+      <Container>
+        <Wrapper>
+          <Title>CREATE AN ACCOUNT</Title>
+          <Form>
+            {"" !== notice && (
+              <div className="alert alert-warning" role="alert">
+                {notice}
+              </div>
+            )}
+            <Input
+              placeholder="email address"
+              type="email"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <Input
+              type="password"
+              placeholder="password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <Input
+              type="password"
+              placeholder="confirm password"
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+            <Button onClick={(e) => signupWithUsernameAndPassword(e)}>
+              SIGN UP
+            </Button>
+            <LinkText href="/login">ALREADY A USER? LOGIN HERE</LinkText>
+          </Form>
+        </Wrapper>
+      </Container>
+    </>
   );
 };
 

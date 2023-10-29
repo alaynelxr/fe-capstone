@@ -2,9 +2,9 @@ import MovePage from "./pages/MovePage";
 import Home from "./pages/Home";
 import Browse from "./pages/Browse";
 import Login from "./pages/Login";
-import Cart from "./pages/Cart";
+// import Cart from "./pages/Cart";
 import AddMoveForm from "./pages/AddMove";
-import AddListForm from "./pages/AddList";
+// import AddListForm from "./pages/AddList";
 import ListPage from "./pages/ListPage";
 import AllListsPage from "./pages/AllListsPage";
 import TestPage from "./pages/TestPage";
@@ -12,12 +12,7 @@ import SignUp from "./pages/SignUp";
 import Profile from "./pages/Profile";
 import Report from "./pages/ReportPage";
 
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 const App = () => {
   return (

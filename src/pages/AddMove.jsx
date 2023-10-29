@@ -17,7 +17,13 @@ import { Slide, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 // storage for image upload
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  uploadBytes,
+  getDownloadURL,
+} from "firebase/storage";
 
 const Container = styled.div`
   width: 100vw;
@@ -64,77 +70,6 @@ const Image = styled.img`
 `;
 
 const AddMoveForm = () => {
-  // const navigate = useNavigate();
-  // const [imageFile, setImageFile] = useState(null);
-
-  // const [formData, setFormData] = useState({
-  //   title: "",
-  //   alias: [],
-  //   difficulty: "",
-  //   proficiency: "",
-  //   categories: [],
-  //   desc: "",
-  // });
-
-  // const handleChange = (event) => {
-  //   const { name, value } = event.target;
-  //   setFormData((formData) => ({ ...formData, [name]: value }));
-  // };
-
-  // const handleCategoriesChange = (selectedCategories) => {
-  //   const categoriesArray = Array.isArray(selectedCategories)
-  //     ? selectedCategories
-  //     : [selectedCategories];
-
-  //   setFormData({ ...formData, categories: categoriesArray });
-  // };
-
-  // const handleAliasTextChange = (event) => {
-  //   const inputValue = event.target.value; // Get the input value
-  //   const aliasesArray = inputValue.split(",").map((alias) => alias.trim()); // Split into an array
-  //   setFormData({ ...formData, alias: aliasesArray });
-  // };
-
-  // const handleImageChange = (event) => {
-  //   const file = event.target.files[0];
-  //   setImageFile(file);
-  // };
-
-  // const { token } = useFirebaseAuth();
-
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
-
-  //   try {
-  //     console.log("Making API request...");
-
-  //     // Serialize the form data and send it to your API
-  //     const response = await fetch(`${BACKEND_URL}/moves/add`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         // Include the Firebase token in the authorization header
-  //         Authorization: token,
-  //       },
-  //       body: JSON.stringify(formData),
-  //     });
-  //     console.log("authorisation token", token);
-  //     console.log("this is jsonbody", JSON.stringify(formData));
-
-  //     if (response.status === 201) {
-  //       // Handle success (e.g., show a success message)
-  //       toast.success("New move added successfully!", {
-  //         autoClose: 3000,
-  //         onClose: () => navigate("/moves"),
-  //       });
-  //     } else {
-  //       console.error("Error", response.status);
-  //     }
-  //   } catch (error) {
-  //     console.error("API request failed:", error);
-  //   }
-  // };
-
   const navigate = useNavigate();
   const [imageFile, setImageFile] = useState(null);
   const [downloadURL, setDownloadURL] = useState(""); // New state to store the image download URL
@@ -146,6 +81,7 @@ const AddMoveForm = () => {
     proficiency: "",
     categories: [],
     desc: "",
+    img: "",
   });
 
   const handleChange = (event) => {
@@ -171,6 +107,12 @@ const AddMoveForm = () => {
     setImageFile(file);
   };
 
+  useEffect(() => {
+    if (imageFile) {
+      uploadFile();
+    }
+  }, [imageFile]);
+
   const { token } = useFirebaseAuth();
 
   useEffect(() => {
@@ -180,58 +122,149 @@ const AddMoveForm = () => {
     );
   }, [formData]);
 
+  // const handleSubmit = async (event) => {
+  //   event.preventDefault();
+
+  //   const uploadImageAndSubmitForm = async () => {
+  //     try {
+  //       if (imageFile) {
+  //         console.log("Uploading image to Firebase Storage...");
+
+  //         const storage = getStorage();
+  //         const fileName = new Date().getTime() + formData.title;
+  //         const storageRef = ref(storage, `images/${fileName}`);
+
+  //         // Create an upload task
+  //         const uploadTask = uploadBytesResumable(storageRef, imageFile);
+
+  //         // Track the upload progress
+  //         uploadTask.on(
+  //           "state_changed",
+  //           (snapshot) => {
+  //             const progress =
+  //               (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+  //             console.log("Upload is " + progress + "% done");
+  //           },
+  //           (error) => {
+  //             console.log("Error during upload:", error);
+  //           },
+  //           () => {
+  //             // Upload is complete, get the download URL
+  //             getDownloadURL(storageRef).then((downloadURL) => {
+  //               console.log("Download URL:", downloadURL);
+  //               // Include the download URL in your form data
+  //               setFormData((prevData) => ({ ...prevData, img: downloadURL }));
+  //               console.log("Form data with img:", formData);
+
+  //               // Now that img is updated, you can submit the form
+  //               const response = fetch(`${BACKEND_URL}/moves/add`, {
+  //                 method: "POST",
+  //                 headers: {
+  //                   "Content-Type": "application/json",
+  //                   // Include the Firebase token in the authorization header
+  //                   Authorization: token,
+  //                 },
+  //                 body: JSON.stringify(formData),
+  //               });
+
+  //               if (response.status === 201) {
+  //                 // Handle success (e.g., show a success message)
+  //                 toast.success("New move added successfully!", {
+  //                   autoClose: 3000,
+  //                   onClose: () => navigate("/moves"),
+  //                 });
+  //               } else {
+  //                 console.error("Error", response.status);
+  //               }
+  //             });
+  //           }
+  //         );
+  //       }
+  //     } catch (error) {
+  //       console.error("API request failed:", error);
+  //     }
+  //   };
+
+  //   // Call the function to upload the image and submit the form
+  //   await uploadImageAndSubmitForm(formData);
+  //   console.log("Form submission:", formData);
+  // };
+
+  // sandbox
+
+  // Function to upload the image file
+  const uploadFile = async () => {
+    if (imageFile) {
+      try {
+        console.log("Uploading image to Firebase Storage...");
+
+        const storage = getStorage();
+        const fileName = new Date().getTime() + formData.title;
+        const storageRef = ref(storage, `images/${fileName}`);
+
+        // Create an upload task
+        const uploadTask = uploadBytesResumable(storageRef, imageFile);
+
+        // Track the upload progress
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log("Upload is " + progress + "% done");
+          },
+          (error) => {
+            console.log("Error during upload:", error);
+          },
+          async () => {
+            // Upload is complete, get the download URL
+            const downloadURL = await getDownloadURL(storageRef);
+            console.log("Download URL:", downloadURL);
+
+            // Include the download URL in your form data
+            setFormData((prevData) => ({ ...prevData, img: downloadURL }));
+            console.log("Form data with img:", formData);
+          }
+        );
+      } catch (error) {
+        console.error("Error during image upload:", error);
+      }
+    }
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+    await uploadFile();
+    // Now that img is updated, you can submit the form
+    try {
+      if (formData.img) {
+        // Perform the form data submission
+        const response = await fetch(`${BACKEND_URL}/moves/add`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            // Include the Firebase token in the authorization header
+            Authorization: token,
+          },
+          body: JSON.stringify(formData),
+        });
 
-    const uploadImageAndSubmitForm = async () => {
-      try {
-        if (imageFile) {
-          console.log("Uploading image to Firebase Storage...");
-
-          const storage = getStorage();
-          const fileName = new Date().getTime() + formData.title;
-          const storageRef = ref(storage, `images/${fileName}`);
-
-          // Upload the image
-          await uploadBytes(storageRef, imageFile);
-          console.log("Image uploaded to Firebase Storage!");
-
-          // Get the download URL of the uploaded image
-          const downloadURL = await getDownloadURL(storageRef);
-          console.log("Download URL:", downloadURL);
-
-          // Include the download URL in your form data
-          setFormData((prevData) => ({ ...prevData, img: downloadURL }));
-
-          // Serialize the form data and send it to your API
-          const response = await fetch(`${BACKEND_URL}/moves/add`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              // Include the Firebase token in the authorization header
-              Authorization: token,
-            },
-            body: JSON.stringify(formData),
+        if (response.status === 201) {
+          // Handle success (e.g., show a success message)
+          toast.success("New move added successfully!", {
+            autoClose: 3000,
+            onClose: () => navigate("/moves"),
           });
-
-          if (response.status === 201) {
-            // Handle success (e.g., show a success message)
-            toast.success("New move added successfully!", {
-              autoClose: 3000,
-              onClose: () => navigate("/moves"),
-            });
-          } else {
-            console.error("Error", response.status);
-          }
+        } else {
+          console.error("Error", response.status);
         }
-      } catch (error) {
-        console.error("API request failed:", error);
       }
-    };
-
-    // Call the function to upload the image and submit the form
-    await uploadImageAndSubmitForm();
+    } catch (error) {
+      console.error("API request failed:", error);
+    }
   };
+
+  // end sandbox
 
   return (
     <Container>

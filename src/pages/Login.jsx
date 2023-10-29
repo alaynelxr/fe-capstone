@@ -3,6 +3,7 @@ import { mobile } from "../responsive";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import loginPage2 from "../assets/loginPage2.png";
+import Navbar from "../components/Navbar";
 
 // Google Authentication
 import { auth } from "../config/firebase";
@@ -29,7 +30,7 @@ import {
 
 const Container = styled.div`
   width: 100vw;
-  height: 100vh;
+  height: 90vh;
   background: #fdf8ef;
   background: linear-gradient(
       rgba(255, 255, 255, 0.5),
@@ -119,38 +120,42 @@ const Login = () => {
   // };
 
   return (
-    <Container>
-      <Wrapper>
-        {isLoggedIn ? (
-          <Title>You're logged in!</Title>
-        ) : (
-          <>
-            <Title>SIGN IN</Title>
-            <Form>
-              {"" !== notice && (
-                <div className="alert alert-warning" role="alert">
-                  {notice}
-                </div>
-              )}
-              <Input
-                placeholder="email address"
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <Input
-                placeholder="password"
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              {/* <Button onClick={signInWithGoogle}>SIGN IN WITH GOOGLE</Button> */}
-              <Button onClick={(e) => loginWithUsernameAndPassword(e)}>
-                LOGIN
-              </Button>
-              <LinkText> FORGOT PASSWORD?</LinkText>
-              <LinkText href="/signup">SIGN UP HERE</LinkText>
-            </Form>
-          </>
-        )}
-      </Wrapper>
-    </Container>
+    <>
+      <Navbar />
+      <Container>
+        <Wrapper>
+          {isLoggedIn ? (
+            <Title>You're logged in!</Title>
+          ) : (
+            <>
+              <Title>SIGN IN</Title>
+              <Form>
+                {"" !== notice && (
+                  <div className="alert alert-warning" role="alert">
+                    {notice}
+                  </div>
+                )}
+                <Input
+                  placeholder="email address"
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                <Input
+                  placeholder="password"
+                  type="password"
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                {/* <Button onClick={signInWithGoogle}>SIGN IN WITH GOOGLE</Button> */}
+                <Button onClick={(e) => loginWithUsernameAndPassword(e)}>
+                  LOGIN
+                </Button>
+                {/* <LinkText> FORGOT PASSWORD?</LinkText> */}
+                <LinkText href="/signup">SIGN UP HERE</LinkText>
+              </Form>
+            </>
+          )}
+        </Wrapper>
+      </Container>
+    </>
   );
 };
 
