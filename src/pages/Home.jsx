@@ -5,11 +5,11 @@ import Slider from "../components/Slider";
 import Welcomebanner from "../components/Welcomebanner";
 import FeaturedMoves from "../components/FeaturedMoves";
 import BlogArticle from "../components/BlogArticle";
-// import SearchBar from "../components/SearchBar";
 import { getAuth } from "firebase/auth";
 import { BACKEND_URL } from "../constants";
 import styled from "styled-components";
 import { mobile } from "../responsive";
+import { BottomNav } from "../components/Navbar";
 
 const Container = styled.div`
   flex: 1;
@@ -57,7 +57,6 @@ const Home = () => {
     <div>
       {isLoggedIn && <Welcomebanner />}
       <Navbar />
-      {/* <SearchBar /> */}
       <Slider />
       <BlogArticle />
       <Container>
@@ -65,6 +64,7 @@ const Home = () => {
       </Container>
       <FeaturedMoves filteredMoves={featuredMoves} />
       <Footer />
+      <BottomNav />
     </div>
   );
 };

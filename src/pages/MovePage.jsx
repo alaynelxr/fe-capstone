@@ -3,6 +3,7 @@ import { BACKEND_URL } from "../constants";
 import styled from "styled-components";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
+import { BottomNav } from "../components/Navbar";
 import { mobile } from "../responsive";
 
 // import CloudUploadIcon from "@mui/icons-material/CloudUpload";
@@ -339,6 +340,7 @@ const MovePage = () => {
           )}
         </InfoContainer>
       </Wrapper>
+      <BottomNav />
       <Footer />
     </Container>
   );

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { mobile } from "../responsive";
 import { BACKEND_URL } from "../constants";
 
 // Google Authentication

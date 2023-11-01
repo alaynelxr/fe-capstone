@@ -1,5 +1,8 @@
 import { Badge } from "@material-ui/core";
-import { AccountCircleOutlined } from "@material-ui/icons";
+import { AccountCircleOutlined, Home } from "@material-ui/icons";
+import HomeIcon from "@mui/icons-material/Home";
+import GridViewRoundedIcon from "@mui/icons-material/GridViewRounded";
+import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 import { React, useState } from "react";
 import styled from "styled-components";
 import { mobile } from "../responsive";
@@ -8,7 +11,7 @@ import { getAuth } from "firebase/auth";
 
 const Container = styled.div`
   height: 60px;
-  ${mobile({ height: "50px" })}
+  ${mobile({ display: "none" })}
   position: sticky;
 `;
 
@@ -59,6 +62,35 @@ const StyledLink = styled(Link)`
   }
 `;
 
+const BottomNavContainer = styled.div`
+  display: none; // Initially hide the bottom navigation
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 10vh;
+  background: white;
+  border: 1px solid;
+  z-index: 1000;
+  justify-content: space-around;
+  ${mobile({ display: "flex" })}// Display the bottom navigation on mobile
+`;
+
+const BottomNavWrapper = styled.div`
+  padding: 10px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  ${mobile({ padding: "10px 0px" })}
+`;
+
+const BottomNavItem = styled.div`
+  font-size: 14px;
+  cursor: pointer;
+  margin-left: 25px;
+  padding: 40px;
+  ${mobile({ fontSize: "12px", marginLeft: "10px" })}
+`;
+
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -107,3 +139,48 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+const BottomNav = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const auth = getAuth();
+
+  auth.onAuthStateChanged((user) => {
+    if (user) {
+      setIsLoggedIn(true);
+      console.log(isLoggedIn);
+    }
+  });
+  return (
+    <BottomNavContainer>
+      <BottomNavWrapper>
+        <BottomNavItem>
+          <HomeIcon onClick={(event) => (window.location.href = "/")} />
+        </BottomNavItem>
+
+        <BottomNavItem>
+          <GridViewRoundedIcon
+            color="white"
+            onClick={(event) => (window.location.href = "/moves")}
+          />
+        </BottomNavItem>
+
+        {isLoggedIn ? (
+          <BottomNavItem>
+            <AccountCircleOutlined
+              onClick={(event) => (window.location.href = "/profile")}
+            />
+          </BottomNavItem>
+        ) : (
+          <BottomNavItem>
+            <LoginRoundedIcon
+              onClick={(event) => (window.location.href = "/login")}
+            />
+          </BottomNavItem>
+        )}
+      </BottomNavWrapper>
+    </BottomNavContainer>
+  );
+};
+
+export { BottomNav };

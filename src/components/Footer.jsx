@@ -59,7 +59,6 @@ const Footer = () => {
           <ContactItem>
             <IconButton href="mailto:alaynelxr@gmail.com">
               <MailOutline />
-              {/* <a>alaynelxr@gmail.com</a> */}
             </IconButton>
           </ContactItem>
           <ContactItem>

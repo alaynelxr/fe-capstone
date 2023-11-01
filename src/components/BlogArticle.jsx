@@ -35,15 +35,6 @@ const Desc = styled.p`
   ${mobile({ margin: "20px 30px" })}
 `;
 
-// const Button = styled.button`
-//   border: none;
-//   padding: 10px;
-//   background-color: lightblue;
-//   color: white;
-//   cursor: pointer;
-//   font-weight: 600;
-// `;
-
 const Button = styled.a`
   display: inline-block;
   padding: 10px;

@@ -7,5 +7,3 @@ export const mobile = (props) => {
     }
   `;
 };
-
-// samsung 20 ultra width: 412 px, iPhone 12 Pro: 390px

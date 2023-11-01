@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Navbar from "../components/Navbar";
+import { BottomNav } from "../components/Navbar";
 import FeaturedMoves from "../components/FeaturedMoves";
 import SearchBar from "../components/SearchBar";
 import Footer from "../components/Footer";
@@ -55,24 +56,6 @@ const Browse = () => {
   };
   console.log(filters);
   console.log(searchQuery);
-
-  // get all moves
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const res = await fetch(`${BACKEND_URL}/moves/public`);
-  //       if (!res.ok) {
-  //         throw new Error("Failed to fetch data");
-  //       }
-  //       const data = await res.json();
-  //       setMoveData(data);
-  //     } catch (error) {
-  //       console.error("Error", error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -179,43 +162,6 @@ const Browse = () => {
     console.log("Search Query:", searchQuery);
   }, [moveData, filters, searchQuery]);
 
-  // useEffect(() => {
-  //   // Filter moves based on searchQuery and filters
-  //   setFilteredMoves(
-  //     moveData.filter((item) => {
-  //       const titleMatch = item.title
-  //         .toLowerCase()
-  //         .includes(searchQuery.toLowerCase());
-
-  //       // Debugging statement: Check if the title match condition is met
-  //       console.log("Title Match for", item.title, ":", titleMatch);
-  //       return (
-  //         (Object.entries(filters).every(([key, value]) => {
-  //           const nestedPropertyValue =
-  //             key === "difficulty" ? item[key]?.title : item[key]?.[0]?.title;
-  //           console.log("Nested Property Value:", nestedPropertyValue);
-  //           console.log(
-  //             "Conditions Met:",
-  //             nestedPropertyValue && nestedPropertyValue.includes(value)
-  //           );
-  //           console.log("Item Alias:", item.alias);
-
-  //           return nestedPropertyValue && nestedPropertyValue.includes(value);
-  //         }) &&
-  //           item.title.toLowerCase().includes(searchQuery.toLowerCase())) ||
-  //         (item.alias &&
-  //           item.alias
-  //             .map((aliasObj) => aliasObj.name) // Extract the alias names
-  //             .some((alias) =>
-  //               alias.toLowerCase().includes(searchQuery.toLowerCase())
-  //             ))
-  //       );
-  //     })
-  //   );
-  //   console.log("Filters:", filters);
-  //   console.log("Search Query:", searchQuery);
-  // }, [moveData, filters, searchQuery]);
-
   return (
     <Container>
       <Navbar />
@@ -243,6 +189,7 @@ const Browse = () => {
       </FilterContainer>
       <FeaturedMoves filters={filters} filteredMoves={filteredMoves} />
       <AddButton />
+      <BottomNav />
       <Footer />
     </Container>
   );

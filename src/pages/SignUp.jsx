@@ -72,20 +72,6 @@ const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [notice, setNotice] = useState("");
 
-  // const signupWithUsernameAndPassword = async (e) => {
-  //   e.preventDefault();
-
-  //   if (password === confirmPassword) {
-  //     try {
-  //       await createUserWithEmailAndPassword(auth, email, password);
-  //       navigate("/");
-  //     } catch {
-  //       setNotice("Sorry, something went wrong. Please try again.");
-  //     }
-  //   } else {
-  //     setNotice("Passwords don't match. Please try again.");
-  //   }
-  // };
   const signupWithUsernameAndPassword = async (e) => {
     e.preventDefault();
 

@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { mobile } from "../responsive";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import ProficiencySelector from "../components/ProficiencySelector";
 import DifficultySelector from "../components/DifficultySelector";
 import CategorySelector from "../components/CategorySelector";
@@ -21,7 +20,6 @@ import {
   getStorage,
   ref,
   uploadBytesResumable,
-  uploadBytes,
   getDownloadURL,
 } from "firebase/storage";
 
@@ -122,76 +120,6 @@ const AddMoveForm = () => {
     );
   }, [formData]);
 
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
-
-  //   const uploadImageAndSubmitForm = async () => {
-  //     try {
-  //       if (imageFile) {
-  //         console.log("Uploading image to Firebase Storage...");
-
-  //         const storage = getStorage();
-  //         const fileName = new Date().getTime() + formData.title;
-  //         const storageRef = ref(storage, `images/${fileName}`);
-
-  //         // Create an upload task
-  //         const uploadTask = uploadBytesResumable(storageRef, imageFile);
-
-  //         // Track the upload progress
-  //         uploadTask.on(
-  //           "state_changed",
-  //           (snapshot) => {
-  //             const progress =
-  //               (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-  //             console.log("Upload is " + progress + "% done");
-  //           },
-  //           (error) => {
-  //             console.log("Error during upload:", error);
-  //           },
-  //           () => {
-  //             // Upload is complete, get the download URL
-  //             getDownloadURL(storageRef).then((downloadURL) => {
-  //               console.log("Download URL:", downloadURL);
-  //               // Include the download URL in your form data
-  //               setFormData((prevData) => ({ ...prevData, img: downloadURL }));
-  //               console.log("Form data with img:", formData);
-
-  //               // Now that img is updated, you can submit the form
-  //               const response = fetch(`${BACKEND_URL}/moves/add`, {
-  //                 method: "POST",
-  //                 headers: {
-  //                   "Content-Type": "application/json",
-  //                   // Include the Firebase token in the authorization header
-  //                   Authorization: token,
-  //                 },
-  //                 body: JSON.stringify(formData),
-  //               });
-
-  //               if (response.status === 201) {
-  //                 // Handle success (e.g., show a success message)
-  //                 toast.success("New move added successfully!", {
-  //                   autoClose: 3000,
-  //                   onClose: () => navigate("/moves"),
-  //                 });
-  //               } else {
-  //                 console.error("Error", response.status);
-  //               }
-  //             });
-  //           }
-  //         );
-  //       }
-  //     } catch (error) {
-  //       console.error("API request failed:", error);
-  //     }
-  //   };
-
-  //   // Call the function to upload the image and submit the form
-  //   await uploadImageAndSubmitForm(formData);
-  //   console.log("Form submission:", formData);
-  // };
-
-  // sandbox
-
   // Function to upload the image file
   const uploadFile = async () => {
     if (imageFile) {
@@ -263,8 +191,6 @@ const AddMoveForm = () => {
       console.error("API request failed:", error);
     }
   };
-
-  // end sandbox
 
   return (
     <Container>
@@ -341,11 +267,6 @@ const AddMoveForm = () => {
             onChange={handleChange}
           />
           <InputContainer>
-            {/* <Button
-              component="label"
-              variant="contained"
-              startIcon={<CloudUploadIcon />}
-            > */}
             <input type="file" onChange={handleImageChange} />
             <Image
               src={
