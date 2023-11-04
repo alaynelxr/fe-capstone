@@ -46,11 +46,10 @@ const Footer = () => {
       <Left>
         <Logo>MOVEMENT.</Logo>
         <Desc>
-          The MOVEMENT app's inception dates back to 2021 when one frustrated
-          pole dancer was unsatified with the options available on the market.
-          One Glide app and one coding bootcamp later, this app is every pole
-          dancer's companion and is designed to help you keep track of your
-          progress and goals.
+          MOVEMENT app's inception dates back to 2021 when one frustrated pole
+          dancer was unsatisfied with the options available on the market. One
+          coding bootcamp later, this app is every pole dancer's companion and
+          is designed to help you keep track of your progress and goals.
         </Desc>
       </Left>
       <Right>
