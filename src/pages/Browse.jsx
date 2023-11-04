@@ -46,6 +46,16 @@ const Browse = () => {
   const [searchQuery, setSearchQuery] = useState(""); // Add searchQuery state
   const [filteredMoves, setFilteredMoves] = useState([]); // Store retrieved data
   const [moveData, setMoveData] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const auth = getAuth();
+
+  auth.onAuthStateChanged((user) => {
+    if (user) {
+      setIsLoggedIn(true);
+      console.log(isLoggedIn);
+    }
+  });
 
   const handleFilters = (e) => {
     const value = e.target.value;
@@ -188,7 +198,7 @@ const Browse = () => {
         </Filter>
       </FilterContainer>
       <FeaturedMoves filters={filters} filteredMoves={filteredMoves} />
-      <AddButton />
+      {isLoggedIn && <AddButton />}
       <BottomNav />
       <Footer />
     </Container>
