@@ -17,10 +17,10 @@ export default function CategorySelector({ value, onChange }) {
         value={value}
         onChange={handleChange}
       >
-        <MenuItem value="clnfhuysd0000svx19ggsw9pe">Tricks</MenuItem>
-        <MenuItem value="clnfhuysd0003svx1yonb4yyq">Spins</MenuItem>
-        <MenuItem value="clnfhuysd0001svx1682er2yt">Flexibility</MenuItem>
-        <MenuItem value="clnfhuysd0002svx1v1astlv1">Flips & Drops</MenuItem>
+        <MenuItem value="clojqy7u20007svsxpdr8hd52">Tricks</MenuItem>
+        <MenuItem value="clojqx04l0006svsxksy0ijks">Spins</MenuItem>
+        <MenuItem value="clojqy7u20008svsxt8c2a4ym">Flexibility</MenuItem>
+        <MenuItem value="clojqy7u20009svsx0s6repbu">Flips & Drops</MenuItem>
       </Select>
     </FormControl>
   );

@@ -18,11 +18,11 @@ export default function DifficultySelector({ value, onChange }) {
         value={value}
         onChange={handleChange}
       >
-        <MenuItem value="clnfhvq480004svx137w3yab3">Intro</MenuItem>
-        <MenuItem value="clnfhvq480005svx1apzmz0rm">Beginner</MenuItem>
-        <MenuItem value="clnfhvq480006svx15uo0esp7">Intermediate</MenuItem>
-        <MenuItem value="clnfhvq480007svx1xr0gu3m6">Advanced</MenuItem>
-        <MenuItem value="clnfhvq480008svx16eaoapo6">Extreme</MenuItem>
+        <MenuItem value="clojqtn930002svsx3hmsi3na">Intro</MenuItem>
+        <MenuItem value="clojqso690001svsxnpyafayw">Beginner</MenuItem>
+        <MenuItem value="clojqubj80003svsxi7jy1mh4">Intermediate</MenuItem>
+        <MenuItem value="clojqup100004svsxiz20cpv7">Advanced</MenuItem>
+        <MenuItem value="clojqcytf0000svsxuwgjk12m">Extreme</MenuItem>
       </Select>
     </FormControl>
   );
