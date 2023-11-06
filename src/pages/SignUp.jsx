@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import loginPage2 from "../assets/loginPage2.png";
 import Navbar from "../components/Navbar";
+import { BACKEND_URL } from "../constants";
 
 // Google Authentication
 import { auth } from "../config/firebase";
@@ -98,7 +99,7 @@ const SignUp = () => {
         console.log(userData);
 
         // Make an HTTP POST request to your backend to create the user entry
-        const response = await fetch("http://localhost:5000/users/register", {
+        const response = await fetch(`${BACKEND_URL}/users/register`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -162,5 +163,3 @@ const SignUp = () => {
 };
 
 export default SignUp;
-
-//https://www.youtube.com/watch?v=eTuJ47RvEdQ
