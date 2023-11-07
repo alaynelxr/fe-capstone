@@ -3,7 +3,7 @@ export const sliderItems = [
     id: 1,
     img: "https://firebasestorage.googleapis.com/v0/b/movement-1c146.appspot.com/o/ayeshaElbow.jpg?alt=media&token=a229caa7-5c32-4b88-85e1-367c504735d2",
     title: "ELBOW AYESHA",
-    desc: "Have you tried this variant yet? See the tutorial",
+    desc: "Have you tried this variant of Ayesha yet?",
     bg: "f5fafd",
     linkTo: "/move/clojs71ps000bsvsxdqayvu80",
   },

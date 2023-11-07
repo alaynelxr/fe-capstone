@@ -201,7 +201,7 @@ const MovePage = () => {
     };
 
     fetchData();
-  }, []);
+  }, [selectedProficiency]);
 
   const categories = singleMoveData?.categories || [];
 
@@ -244,11 +244,11 @@ const MovePage = () => {
               console.log("Response status:", response.status);
               if (response.ok) {
                 // The proficiency update was successful
+                setSelectedProficiency(requestData.updatedProficiencyLevel);
                 console.log(
-                  "Proficiency updated successfully",
+                  "After after state update: selectedProficiency =",
                   selectedProficiency
                 );
-                setSelectedProficiency(selectedProficiency);
               } else {
                 // Handle errors if the request was not successful
                 throw new Error(
@@ -318,7 +318,7 @@ const MovePage = () => {
                     singleMoveData?.userProficiency?.level || "Not attempted"
                   }
                   onChange={(newProficiency) => {
-                    console.log("New Proficiency Selected:", newProficiency);
+                    console.log("Proficiency Selected:", newProficiency);
                     setSelectedProficiency(newProficiency);
                   }}
                 />
